@@ -1,1 +1,1 @@
-huawei-solar>=2.2.9;python_version>='3.10'
+huawei-solar>=2.3.0;python_version>='3.10'
