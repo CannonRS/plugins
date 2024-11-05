@@ -1037,39 +1037,39 @@ item_structs:
             sun2000_slave@instance: ..:.
             database@instance: init
 
-        sdongle:
-            sun2000_equipment@instance: SDONGLE
-            sun2000_slave@instance: default
+    sdongle:
+        sun2000_equipment@instance: SDONGLE
+        sun2000_slave@instance: default
 
-            total_input_power:
-                type: num
-                sun2000_read@instance: SDONGLE_TOTAL_INPUT_POWER
-                sun2000_slave@instance: ..:.
-                database@instance: init
+        total_input_power:
+            type: num
+            sun2000_read@instance: SDONGLE_TOTAL_INPUT_POWER
+            sun2000_slave@instance: ..:.
+            database@instance: init
 
-            load_power:
-                type: num
-                sun2000_read@instance: SDONGLE_LOAD_POWER
-                sun2000_slave@instance: ..:.
-                database@instance: init
+        load_power:
+            type: num
+            sun2000_read@instance: SDONGLE_LOAD_POWER
+            sun2000_slave@instance: ..:.
+            database@instance: init
 
-            grid_power:
-                type: num
-                sun2000_read@instance: SDONGLE_GRID_POWER
-                sun2000_slave@instance: ..:.
-                database@instance: init
+        grid_power:
+            type: num
+            sun2000_read@instance: SDONGLE_GRID_POWER
+            sun2000_slave@instance: ..:.
+            database@instance: init
 
-            total_battery_power:
-                type: num
-                sun2000_read@instance: SDONGLE_TOTAL_BATTERY_POWER
-                sun2000_slave@instance: ..:.
-                database@instance: init
+        total_battery_power:
+            type: num
+            sun2000_read@instance: SDONGLE_TOTAL_BATTERY_POWER
+            sun2000_slave@instance: ..:.
+            database@instance: init
 
-            total_active_power:
-                type: num
-                sun2000_read@instance: SDONGLE_TOTAL_ACTIVE_POWER
-                sun2000_slave@instance: ..:.
-                database@instance: init
+        total_active_power:
+            type: num
+            sun2000_read@instance: SDONGLE_TOTAL_ACTIVE_POWER
+            sun2000_slave@instance: ..:.
+            database@instance: init
 
     meter:
         sun2000_equipment@instance: METER
@@ -1600,402 +1600,402 @@ item_structs:
             sun2000_slave@instance: ..:.
             database@instance: init
 
-        built_in_energy_sensor:
-            sun2000_equipment@instance: EMMA_BUILT_IN_ENERGY_SENSOR
-            sun2000_slave@instance: default
+    emma_built_in_energy_sensor:
+        sun2000_equipment@instance: EMMA_BUILT_IN_ENERGY_SENSOR
+        sun2000_slave@instance: default
 
-            phase_a_voltage:
-                type: num
-                sun2000_read@instance: PHASE_A_VOLTAGE_BUILT_IN_ENERGY_SENSOR
-                sun2000_equipment@instance: ..:.
-                sun2000_slave@instance: ..:.
-                database@instance: init
+        phase_a_voltage:
+            type: num
+            sun2000_read@instance: PHASE_A_VOLTAGE_BUILT_IN_ENERGY_SENSOR
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
 
-            phase_b_voltage:
-                type: num
-                sun2000_read@instance: PHASE_B_VOLTAGE_BUILT_IN_ENERGY_SENSOR
-                sun2000_equipment@instance: ..:.
-                sun2000_slave@instance: ..:.
-                database@instance: init
+        phase_b_voltage:
+            type: num
+            sun2000_read@instance: PHASE_B_VOLTAGE_BUILT_IN_ENERGY_SENSOR
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
 
-            phase_c_voltage:
-                type: num
-                sun2000_read@instance: PHASE_C_VOLTAGE_BUILT_IN_ENERGY_SENSOR
-                sun2000_equipment@instance: ..:.
-                sun2000_slave@instance: ..:.
-                database@instance: init
+        phase_c_voltage:
+            type: num
+            sun2000_read@instance: PHASE_C_VOLTAGE_BUILT_IN_ENERGY_SENSOR
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
 
-            line_voltage_a_b:
-                type: num
-                sun2000_read@instance: LINE_VOLTAGE_A_B_BUILT_IN_ENERGY_SENSOR
-                sun2000_equipment@instance: ..:.
-                sun2000_slave@instance: ..:.
-                database@instance: init
+        line_voltage_a_b:
+            type: num
+            sun2000_read@instance: LINE_VOLTAGE_A_B_BUILT_IN_ENERGY_SENSOR
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
 
-            line_voltage_b_c:
-                type: num
-                sun2000_read@instance: LINE_VOLTAGE_B_C_BUILT_IN_ENERGY_SENSOR
-                sun2000_equipment@instance: ..:.
-                sun2000_slave@instance: ..:.
-                database@instance: init
+        line_voltage_b_c:
+            type: num
+            sun2000_read@instance: LINE_VOLTAGE_B_C_BUILT_IN_ENERGY_SENSOR
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
 
-            line_voltage_c_a:
-                type: num
-                sun2000_read@instance: LINE_VOLTAGE_C_A_BUILT_IN_ENERGY_SENSOR
-                sun2000_equipment@instance: ..:.
-                sun2000_slave@instance: ..:.
-                database@instance: init
+        line_voltage_c_a:
+            type: num
+            sun2000_read@instance: LINE_VOLTAGE_C_A_BUILT_IN_ENERGY_SENSOR
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
 
-            phase_a_current:
-                type: num
-                sun2000_read@instance: PHASE_A_CURRENT_BUILT_IN_ENERGY_SENSOR
-                sun2000_equipment@instance: ..:.
-                sun2000_slave@instance: ..:.
-                database@instance: init
+        phase_a_current:
+            type: num
+            sun2000_read@instance: PHASE_A_CURRENT_BUILT_IN_ENERGY_SENSOR
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
 
-            phase_b_current:
-                type: num
-                sun2000_read@instance: PHASE_B_CURRENT_BUILT_IN_ENERGY_SENSOR
-                sun2000_equipment@instance: ..:.
-                sun2000_slave@instance: ..:.
-                database@instance: init
+        phase_b_current:
+            type: num
+            sun2000_read@instance: PHASE_B_CURRENT_BUILT_IN_ENERGY_SENSOR
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
 
-            phase_c_current:
-                type: num
-                sun2000_read@instance: PHASE_C_CURRENT_BUILT_IN_ENERGY_SENSOR
-                sun2000_equipment@instance: ..:.
-                sun2000_slave@instance: ..:.
-                database@instance: init
+        phase_c_current:
+            type: num
+            sun2000_read@instance: PHASE_C_CURRENT_BUILT_IN_ENERGY_SENSOR
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
 
-            active_power:
-                type: num
-                sun2000_read@instance: ACTIVE_POWER_BUILT_IN_ENERGY_SENSOR
-                sun2000_equipment@instance: ..:.
-                sun2000_slave@instance: ..:.
-                database@instance: init
+        active_power:
+            type: num
+            sun2000_read@instance: ACTIVE_POWER_BUILT_IN_ENERGY_SENSOR
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
 
-            power_factor:
-                type: num
-                sun2000_read@instance: POWER_FACTOR_BUILT_IN_ENERGY_SENSOR
-                sun2000_equipment@instance: ..:.
-                sun2000_slave@instance: ..:.
-                database@instance: init
+        power_factor:
+            type: num
+            sun2000_read@instance: POWER_FACTOR_BUILT_IN_ENERGY_SENSOR
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
 
-            apparent_power:
-                type: num
-                sun2000_read@instance: APPARENT_POWER_BUILT_IN_ENERGY_SENSOR
-                sun2000_equipment@instance: ..:.
-                sun2000_slave@instance: ..:.
-                database@instance: init
+        apparent_power:
+            type: num
+            sun2000_read@instance: APPARENT_POWER_BUILT_IN_ENERGY_SENSOR
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
 
-            phase_a_active_power:
-                type: num
-                sun2000_read@instance: PHASE_A_ACTIVE_POWER_BUILT_IN_ENERGY_SENSOR
-                sun2000_equipment@instance: ..:.
-                sun2000_slave@instance: ..:.
-                database@instance: init
+        phase_a_active_power:
+            type: num
+            sun2000_read@instance: PHASE_A_ACTIVE_POWER_BUILT_IN_ENERGY_SENSOR
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
 
-            phase_b_active_power:
-                type: num
-                sun2000_read@instance: PHASE_B_ACTIVE_POWER_BUILT_IN_ENERGY_SENSOR
-                sun2000_equipment@instance: ..:.
-                sun2000_slave@instance: ..:.
-                database@instance: init
+        phase_b_active_power:
+            type: num
+            sun2000_read@instance: PHASE_B_ACTIVE_POWER_BUILT_IN_ENERGY_SENSOR
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
 
-            phase_c_active_power:
-                type: num
-                sun2000_read@instance: PHASE_C_ACTIVE_POWER_BUILT_IN_ENERGY_SENSOR
-                sun2000_equipment@instance: ..:.
-                sun2000_slave@instance: ..:.
-                database@instance: init
+        phase_c_active_power:
+            type: num
+            sun2000_read@instance: PHASE_C_ACTIVE_POWER_BUILT_IN_ENERGY_SENSOR
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
 
-            total_active_energy:
-                type: num
-                sun2000_read@instance: TOTAL_ACTIVE_ENERGY_BUILT_IN_ENERGY_SENSOR
-                sun2000_equipment@instance: ..:.
-                sun2000_slave@instance: ..:.
-                database@instance: init
+        total_active_energy:
+            type: num
+            sun2000_read@instance: TOTAL_ACTIVE_ENERGY_BUILT_IN_ENERGY_SENSOR
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
 
-            total_negative_active_energy:
-                type: num
-                sun2000_read@instance: TOTAL_NEGATIVE_ACTIVE_ENERGY_BUILT_IN_ENERGY_SENSOR
-                sun2000_equipment@instance: ..:.
-                sun2000_slave@instance: ..:.
-                database@instance: init
+        total_negative_active_energy:
+            type: num
+            sun2000_read@instance: TOTAL_NEGATIVE_ACTIVE_ENERGY_BUILT_IN_ENERGY_SENSOR
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
 
-            total_positive_active_energy:
-                type: num
-                sun2000_read@instance: TOTAL_POSITIVE_ACTIVE_ENERGY_BUILT_IN_ENERGY_SENSOR
-                sun2000_equipment@instance: ..:.
-                sun2000_slave@instance: ..:.
-                database@instance: init
+        total_positive_active_energy:
+            type: num
+            sun2000_read@instance: TOTAL_POSITIVE_ACTIVE_ENERGY_BUILT_IN_ENERGY_SENSOR
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
 
-        external_ernergy_sensor:
-            sun2000_equipment@instance: EMMA_EXTERNAL_ENERGY_SENSOR
-            sun2000_slave@instance: default
+    emma_external_energy_sensor:
+        sun2000_equipment@instance: EMMA_EXTERNAL_ENERGY_SENSOR
+        sun2000_slave@instance: default
 
-            phase_a_voltage:
-                type: num
-                sun2000_read@instance: PHASE_A_VOLTAGE_EXTERNAL_ENERGY_SENSOR
-                sun2000_equipment@instance: ..:.
-                sun2000_slave@instance: ..:.
-                database@instance: init
+        phase_a_voltage:
+            type: num
+            sun2000_read@instance: PHASE_A_VOLTAGE_EXTERNAL_ENERGY_SENSOR
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
 
-            phase_b_voltage:
-                type: num
-                sun2000_read@instance: PHASE_B_VOLTAGE_EXTERNAL_ENERGY_SENSOR
-                sun2000_equipment@instance: ..:.
-                sun2000_slave@instance: ..:.
-                database@instance: init
+        phase_b_voltage:
+            type: num
+            sun2000_read@instance: PHASE_B_VOLTAGE_EXTERNAL_ENERGY_SENSOR
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
 
-            phase_c_voltage:
-                type: num
-                sun2000_read@instance: PHASE_C_VOLTAGE_EXTERNAL_ENERGY_SENSOR
-                sun2000_equipment@instance: ..:.
-                sun2000_slave@instance: ..:.
-                database@instance: init
+        phase_c_voltage:
+            type: num
+            sun2000_read@instance: PHASE_C_VOLTAGE_EXTERNAL_ENERGY_SENSOR
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
 
-            line_voltage_a_b:
-                type: num
-                sun2000_read@instance: LINE_VOLTAGE_A_B_EXTERNAL_ENERGY_SENSOR
-                sun2000_equipment@instance: ..:.
-                sun2000_slave@instance: ..:.
-                database@instance: init
+        line_voltage_a_b:
+            type: num
+            sun2000_read@instance: LINE_VOLTAGE_A_B_EXTERNAL_ENERGY_SENSOR
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
 
-            line_voltage_b_c:
-                type: num
-                sun2000_read@instance: LINE_VOLTAGE_B_C_EXTERNAL_ENERGY_SENSOR
-                sun2000_equipment@instance: ..:.
-                sun2000_slave@instance: ..:.
-                database@instance: init
+        line_voltage_b_c:
+            type: num
+            sun2000_read@instance: LINE_VOLTAGE_B_C_EXTERNAL_ENERGY_SENSOR
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
 
-            line_voltage_c_a:
-                type: num
-                sun2000_read@instance: LINE_VOLTAGE_C_A_EXTERNAL_ENERGY_SENSOR
-                sun2000_equipment@instance: ..:.
-                sun2000_slave@instance: ..:.
-                database@instance: init
+        line_voltage_c_a:
+            type: num
+            sun2000_read@instance: LINE_VOLTAGE_C_A_EXTERNAL_ENERGY_SENSOR
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
 
-            phase_a_current:
-                type: num
-                sun2000_read@instance: PHASE_A_CURRENT_EXTERNAL_ENERGY_SENSOR
-                sun2000_equipment@instance: ..:.
-                sun2000_slave@instance: ..:.
-                database@instance: init
+        phase_a_current:
+            type: num
+            sun2000_read@instance: PHASE_A_CURRENT_EXTERNAL_ENERGY_SENSOR
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
 
-            phase_b_current:
-                type: num
-                sun2000_read@instance: PHASE_B_CURRENT_EXTERNAL_ENERGY_SENSOR
-                sun2000_equipment@instance: ..:.
-                sun2000_slave@instance: ..:.
-                database@instance: init
+        phase_b_current:
+            type: num
+            sun2000_read@instance: PHASE_B_CURRENT_EXTERNAL_ENERGY_SENSOR
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
 
-            phase_c_current:
-                type: num
-                sun2000_read@instance: PHASE_C_CURRENT_EXTERNAL_ENERGY_SENSOR
-                sun2000_equipment@instance: ..:.
-                sun2000_slave@instance: ..:.
-                database@instance: init
+        phase_c_current:
+            type: num
+            sun2000_read@instance: PHASE_C_CURRENT_EXTERNAL_ENERGY_SENSOR
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
 
-            active_power:
-                type: num
-                sun2000_read@instance: ACTIVE_POWER_EXTERNAL_ENERGY_SENSOR
-                sun2000_equipment@instance: ..:.
-                sun2000_slave@instance: ..:.
-                database@instance: init
+        active_power:
+            type: num
+            sun2000_read@instance: ACTIVE_POWER_EXTERNAL_ENERGY_SENSOR
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
 
-            power_factor:
-                type: num
-                sun2000_read@instance: POWER_FACTOR_EXTERNAL_ENERGY_SENSOR
-                sun2000_equipment@instance: ..:.
-                sun2000_slave@instance: ..:.
-                database@instance: init
+        power_factor:
+            type: num
+            sun2000_read@instance: POWER_FACTOR_EXTERNAL_ENERGY_SENSOR
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
 
-            apparent_power:
-                type: num
-                sun2000_read@instance: APPARENT_POWER_EXTERNAL_ENERGY_SENSOR
-                sun2000_equipment@instance: ..:.
-                sun2000_slave@instance: ..:.
-                database@instance: init
+        apparent_power:
+            type: num
+            sun2000_read@instance: APPARENT_POWER_EXTERNAL_ENERGY_SENSOR
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
 
-            phase_a_active_power:
-                type: num
-                sun2000_read@instance: PHASE_A_ACTIVE_POWER_EXTERNAL_ENERGY_SENSOR
-                sun2000_equipment@instance: ..:.
-                sun2000_slave@instance: ..:.
-                database@instance: init
+        phase_a_active_power:
+            type: num
+            sun2000_read@instance: PHASE_A_ACTIVE_POWER_EXTERNAL_ENERGY_SENSOR
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
 
-            phase_b_active_power:
-                type: num
-                sun2000_read@instance: PHASE_B_ACTIVE_POWER_EXTERNAL_ENERGY_SENSOR
-                sun2000_equipment@instance: ..:.
-                sun2000_slave@instance: ..:.
-                database@instance: init
+        phase_b_active_power:
+            type: num
+            sun2000_read@instance: PHASE_B_ACTIVE_POWER_EXTERNAL_ENERGY_SENSOR
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
 
-            phase_c_active_power:
-                type: num
-                sun2000_read@instance: PHASE_C_ACTIVE_POWER_EXTERNAL_ENERGY_SENSOR
-                sun2000_equipment@instance: ..:.
-                sun2000_slave@instance: ..:.
-                database@instance: init
+        phase_c_active_power:
+            type: num
+            sun2000_read@instance: PHASE_C_ACTIVE_POWER_EXTERNAL_ENERGY_SENSOR
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
 
-            total_active_energy:
-                type: num
-                sun2000_read@instance: TOTAL_ACTIVE_ENERGY_EXTERNAL_ENERGY_SENSOR
-                sun2000_equipment@instance: ..:.
-                sun2000_slave@instance: ..:.
-                database@instance: init
+        total_active_energy:
+            type: num
+            sun2000_read@instance: TOTAL_ACTIVE_ENERGY_EXTERNAL_ENERGY_SENSOR
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
 
-            total_negative_active_energy:
-                type: num
-                sun2000_read@instance: TOTAL_NEGATIVE_ACTIVE_ENERGY_EXTERNAL_ENERGY_SENSOR
-                sun2000_equipment@instance: ..:.
-                sun2000_slave@instance: ..:.
-                database@instance: init
+        total_negative_active_energy:
+            type: num
+            sun2000_read@instance: TOTAL_NEGATIVE_ACTIVE_ENERGY_EXTERNAL_ENERGY_SENSOR
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
 
-            total_positive_active_energy:
-                type: num
-                sun2000_read@instance: TOTAL_POSITIVE_ACTIVE_ENERGY_EXTERNAL_ENERGY_SENSOR
-                sun2000_equipment@instance: ..:.
-                sun2000_slave@instance: ..:.
-                database@instance: init
+        total_positive_active_energy:
+            type: num
+            sun2000_read@instance: TOTAL_POSITIVE_ACTIVE_ENERGY_EXTERNAL_ENERGY_SENSOR
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
 
-        external_meter:
-            sun2000_equipment@instance: EMMA_EXTERNAL_METER
-            sun2000_slave@instance: default
+    emma_external_meter:
+        sun2000_equipment@instance: EMMA_EXTERNAL_METER
+        sun2000_slave@instance: default
 
-            emma_external_meter_running_status:
-                type: num
-                sun2000_read@instance: EMMA_EXTERNAL_METER_RUNNING_STATUS
-                sun2000_equipment@instance: ..:.
-                sun2000_slave@instance: ..:.
-                database@instance: init
+        external_meter_running_status:
+            type: num
+            sun2000_read@instance: EMMA_EXTERNAL_METER_RUNNING_STATUS
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
 
-            emma_external_meter_phase_a_voltage:
-                type: num
-                sun2000_read@instance: EMMA_EXTERNAL_METER_PHASE_A_VOLTAGE
-                sun2000_equipment@instance: ..:.
-                sun2000_slave@instance: ..:.
-                database@instance: init
+        external_meter_phase_a_voltage:
+            type: num
+            sun2000_read@instance: EMMA_EXTERNAL_METER_PHASE_A_VOLTAGE
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
 
-            emma_external_meter_phase_b_voltage:
-                type: num
-                sun2000_read@instance: EMMA_EXTERNAL_METER_PHASE_B_VOLTAGE
-                sun2000_equipment@instance: ..:.
-                sun2000_slave@instance: ..:.
-                database@instance: init
+        external_meter_phase_b_voltage:
+            type: num
+            sun2000_read@instance: EMMA_EXTERNAL_METER_PHASE_B_VOLTAGE
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
 
-            emma_external_meter_phase_c_voltage:
-                type: num
-                sun2000_read@instance: EMMA_EXTERNAL_METER_PHASE_C_VOLTAGE
-                sun2000_equipment@instance: ..:.
-                sun2000_slave@instance: ..:.
-                database@instance: init
+        external_meter_phase_c_voltage:
+            type: num
+            sun2000_read@instance: EMMA_EXTERNAL_METER_PHASE_C_VOLTAGE
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
 
-            emma_external_meter_line_voltage_a_b:
-                type: num
-                sun2000_read@instance: EMMA_EXTERNAL_METER_LINE_VOLTAGE_A_B
-                sun2000_equipment@instance: ..:.
-                sun2000_slave@instance: ..:.
-                database@instance: init
+        external_meter_line_voltage_a_b:
+            type: num
+            sun2000_read@instance: EMMA_EXTERNAL_METER_LINE_VOLTAGE_A_B
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
 
-            emma_external_meter_line_voltage_b_c:
-                type: num
-                sun2000_read@instance: EMMA_EXTERNAL_METER_LINE_VOLTAGE_B_C
-                sun2000_equipment@instance: ..:.
-                sun2000_slave@instance: ..:.
-                database@instance: init
+        external_meter_line_voltage_b_c:
+            type: num
+            sun2000_read@instance: EMMA_EXTERNAL_METER_LINE_VOLTAGE_B_C
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
 
-            emma_external_meter_line_voltage_c_a:
-                type: num
-                sun2000_read@instance: EMMA_EXTERNAL_METER_LINE_VOLTAGE_C_A
-                sun2000_equipment@instance: ..:.
-                sun2000_slave@instance: ..:.
-                database@instance: init
+        external_meter_line_voltage_c_a:
+            type: num
+            sun2000_read@instance: EMMA_EXTERNAL_METER_LINE_VOLTAGE_C_A
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
 
-            emma_external_meter_phase_a_current:
-                type: num
-                sun2000_read@instance: EMMA_EXTERNAL_METER_PHASE_A_CURRENT
-                sun2000_equipment@instance: ..:.
-                sun2000_slave@instance: ..:.
-                database@instance: init
+        external_meter_phase_a_current:
+            type: num
+            sun2000_read@instance: EMMA_EXTERNAL_METER_PHASE_A_CURRENT
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
 
-            emma_external_meter_phase_b_current:
-                type: num
-                sun2000_read@instance: EMMA_EXTERNAL_METER_PHASE_B_CURRENT
-                sun2000_equipment@instance: ..:.
-                sun2000_slave@instance: ..:.
-                database@instance: init
+        external_meter_phase_b_current:
+            type: num
+            sun2000_read@instance: EMMA_EXTERNAL_METER_PHASE_B_CURRENT
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
 
-            emma_external_meter_phase_c_current:
-                type: num
-                sun2000_read@instance: EMMA_EXTERNAL_METER_PHASE_C_CURRENT
-                sun2000_equipment@instance: ..:.
-                sun2000_slave@instance: ..:.
-                database@instance: init
+        external_meter_phase_c_current:
+            type: num
+            sun2000_read@instance: EMMA_EXTERNAL_METER_PHASE_C_CURRENT
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
 
-            emma_external_meter_active_power:
-                type: num
-                sun2000_read@instance: EMMA_EXTERNAL_METER_ACTIVE_POWER
-                sun2000_equipment@instance: ..:.
-                sun2000_slave@instance: ..:.
-                database@instance: init
+        external_meter_active_power:
+            type: num
+            sun2000_read@instance: EMMA_EXTERNAL_METER_ACTIVE_POWER
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
 
-            emma_external_meter_power_factor:
-                type: num
-                sun2000_read@instance: EMMA_EXTERNAL_METER_POWER_FACTOR
-                sun2000_equipment@instance: ..:.
-                sun2000_slave@instance: ..:.
-                database@instance: init
+        external_meter_power_factor:
+            type: num
+            sun2000_read@instance: EMMA_EXTERNAL_METER_POWER_FACTOR
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
 
-            emma_external_meter_apparent_power:
-                type: num
-                sun2000_read@instance: EMMA_EXTERNAL_METER_APPARENT_POWER
-                sun2000_equipment@instance: ..:.
-                sun2000_slave@instance: ..:.
-                database@instance: init
+        external_meter_apparent_power:
+            type: num
+            sun2000_read@instance: EMMA_EXTERNAL_METER_APPARENT_POWER
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
 
-            emma_external_meter_phase_a_active_power:
-                type: num
-                sun2000_read@instance: EMMA_EXTERNAL_METER_PHASE_A_ACTIVE_POWER
-                sun2000_equipment@instance: ..:.
-                sun2000_slave@instance: ..:.
-                database@instance: init
+        external_meter_phase_a_active_power:
+            type: num
+            sun2000_read@instance: EMMA_EXTERNAL_METER_PHASE_A_ACTIVE_POWER
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
 
-            emma_external_meter_phase_b_active_power:
-                type: num
-                sun2000_read@instance: EMMA_EXTERNAL_METER_PHASE_B_ACTIVE_POWER
-                sun2000_equipment@instance: ..:.
-                sun2000_slave@instance: ..:.
-                database@instance: init
+        external_meter_phase_b_active_power:
+            type: num
+            sun2000_read@instance: EMMA_EXTERNAL_METER_PHASE_B_ACTIVE_POWER
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
 
-            emma_external_meter_phase_c_active_power:
-                type: num
-                sun2000_read@instance: EMMA_EXTERNAL_METER_PHASE_C_ACTIVE_POWER
-                sun2000_equipment@instance: ..:.
-                sun2000_slave@instance: ..:.
-                database@instance: init
+        external_meter_phase_c_active_power:
+            type: num
+            sun2000_read@instance: EMMA_EXTERNAL_METER_PHASE_C_ACTIVE_POWER
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
 
-            emma_external_meter_total_active_energy:
-                type: num
-                sun2000_read@instance: EMMA_EXTERNAL_METER_TOTAL_ACTIVE_ENERGY
-                sun2000_equipment@instance: ..:.
-                sun2000_slave@instance: ..:.
-                database@instance: init
+        external_meter_total_active_energy:
+            type: num
+            sun2000_read@instance: EMMA_EXTERNAL_METER_TOTAL_ACTIVE_ENERGY
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
 
-            emma_external_meter_total_negative_active_energy:
-                type: num
-                sun2000_read@instance: EMMA_EXTERNAL_METER_TOTAL_NEGATIVE_ACTIVE_ENERGY
-                sun2000_equipment@instance: ..:.
-                sun2000_slave@instance: ..:.
-                database@instance: init
+        external_meter_total_negative_active_energy:
+            type: num
+            sun2000_read@instance: EMMA_EXTERNAL_METER_TOTAL_NEGATIVE_ACTIVE_ENERGY
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
 
-            emma_external_meter_total_positive_active_energy:
-                type: num
-                sun2000_read@instance: EMMA_EXTERNAL_METER_TOTAL_POSITIVE_ACTIVE_ENERGY
-                sun2000_equipment@instance: ..:.
-                sun2000_slave@instance: ..:.
-                database@instance: init
+        external_meter_total_positive_active_energy:
+            type: num
+            sun2000_read@instance: EMMA_EXTERNAL_METER_TOTAL_POSITIVE_ACTIVE_ENERGY
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
 
 
     storage:
