@@ -1,0 +1,3219 @@
+# Metadata for the plugin
+plugin:
+    # Global plugin attributes
+    type: interface                   # plugin type (gateway, interface, protocol, system, web)
+    description:
+        de: 'Einbindung der Huawei SUN2000 Wechselrichterserie.'
+        en: 'Using of the Huawei SUN2000 inverter series.'
+    maintainer: 'Ronny Schulz'
+#    tester:                         # Who tests this plugin?
+    state: develop                  # change to ready when done with development
+    keywords: huawei sun2000 wechselrichter inverter
+#    documentation: ''              # An url to optional plugin doc - NOT the url to user_doc!!!
+#    support: https://knx-user-forum.de/forum/supportforen/smarthome-py
+
+    version: 0.2.1                  # Plugin version (must match the version specified in __init__.py)
+    sh_minversion: 1.9              # minimum shNG version to use this plugin
+#    sh_maxversion:                 # maximum shNG version to use this plugin (leave empty if latest)
+    py_minversion: 3.10              # minimum Python version to use for this plugin
+#    py_maxversion:                 # maximum Python version to use for this plugin (leave empty if latest)
+    multi_instance: True            # plugin supports multi instance
+    restartable: True
+    classname: Huawei_Sun2000       # class containing the plugin
+
+parameters:
+    # Definition of parameters to be configured in etc/plugin.yaml (enter 'parameters: NONE', if section should be empty)
+    host:
+        type: ip
+        mandatory: True
+        description:
+            de: 'Hostname oder IP-Adresse des Wechselrichters.'
+            en: 'Hostname or IP address of the inverter.'
+
+    port:
+        type: int
+        default: 502
+        valid_min: 0
+        valid_max: 65535
+        description:
+            de: 'Port-Nummer des Wechselrichters.'
+            en: 'Port number of the inverter.'
+
+    slave:
+        type: int
+        default: 16
+        valid_min: 0
+        valid_max: 65535
+        description:
+            de: 'Modbus-Adresse des Wechselrichters.'
+            en: 'Modbus address of the inverter.'
+
+    cycle:
+        type: int
+        default: 300
+        description:
+            de: 'Zykluszeit.'
+            en: 'Cycle time.'
+
+item_attributes:
+    sun2000_read:
+        type: str
+        description:
+            de: 'Vom Wechselrichter zu lesende Daten.'
+            en: 'Data to be read from the inverter.'
+
+    sun2000_write:
+        type: str
+        description:
+            de: 'An den Wechselrichter zu sendende Daten.'
+            en: 'Data to be write to the inverter.'
+
+    sun2000_cycle:
+        type: str
+        description:
+            de: 'Zykluszeit, die von der pluginspezifischen Zykluszeit abweichen kann.'
+            en: 'Cycle time different to the plugin specific cycle time.'
+
+    sun2000_slave:
+        type: str
+        description:
+            de: 'Modbus-Adresse des Wechselrichters, die von der pluginspezifischen Modbus-Adresse abweichen kann.'
+            en: 'Modbus address of the inverter different to the plugin specific Modbus address.'
+
+    sun2000_equipment:
+        type: str
+        description:
+            de: 'Gehört zu einer Gruppe von Austattungen. Wenn die Austattung nicht existiert, wird das Item nicht gelesen.'
+            en: 'Part of a group of equipment. If the equipment does not exists, the items will not be read.'
+
+item_structs:
+    inverter:
+        sun2000_equipment@instance: INVERTER
+        sun2000_slave@instance: default
+
+        model_name:
+            type: str
+            sun2000_read@instance: MODEL_NAME
+            sun2000_cycle@instance: 24h
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        serial_number:
+            type: str
+            sun2000_read@instance: SERIAL_NUMBER
+            sun2000_cycle@instance: 24h
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        pn:
+            type: str
+            sun2000_read@instance: PN
+            sun2000_cycle@instance: 24h
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        firmware_version:
+            type: str
+            sun2000_read@instance: FIRMWARE_VERSION
+            sun2000_cycle@instance: 24h
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        software_version:
+            type: str
+            sun2000_read@instance: SOFTWARE_VERSION
+            sun2000_cycle@instance: 24h
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        protocol_version_modbus:
+            type: num
+            sun2000_read@instance: PROTOCOL_VERSION_MODBUS
+            sun2000_cycle@instance: 24h
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        model_id:
+            type: num
+            sun2000_read@instance: MODEL_ID
+            sun2000_cycle@instance: 24h
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        nb_pv_strings:
+            type: num
+            sun2000_read@instance: NB_PV_STRINGS
+            sun2000_cycle@instance: 24h
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        nb_mpp_tracks:
+            type: num
+            sun2000_read@instance: NB_MPP_TRACKS
+            sun2000_cycle@instance: 24h
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        rated_power:
+            type: num
+            sun2000_read@instance: RATED_POWER
+            sun2000_cycle@instance: 24h
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        P_max:
+            type: num
+            sun2000_read@instance: P_MAX
+            sun2000_cycle@instance: 24h
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        S_max:
+            type: num
+            sun2000_read@instance: S_MAX
+            sun2000_cycle@instance: 24h
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        Q_max_out:
+            type: num
+            sun2000_read@instance: Q_MAX_OUT
+            sun2000_cycle@instance: 24h
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        Q_max_in:
+            type: num
+            sun2000_read@instance: Q_MAX_IN
+            sun2000_cycle@instance: 24h
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        P_max_real:
+            type: num
+            sun2000_read@instance: P_MAX_REAL
+            sun2000_cycle@instance: 24h
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        S_max_real:
+            type: num
+            sun2000_read@instance: S_MAX_REAL
+            sun2000_cycle@instance: 24h
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        product_sales_area:
+            type: str
+            sun2000_read@instance: PRODUCT_SALES_AREA
+            sun2000_cycle@instance: 24h
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+#        product_software_number:
+#            type: num
+#            sun2000_read@instance: PRODUCT_SOFTWARE_NUMBER
+#            sun2000_cycle@instance: 24h
+#            sun2000_slave@instance: ..:.
+#            database@instance: init
+
+#        product_software_version_number:
+#            type: num
+#            sun2000_read@instance: PRODUCT_SOFTWARE_VERSION_NUMBER
+#            sun2000_cycle@instance: 24h
+#            sun2000_slave@instance: ..:.
+#            database@instance: init
+
+        grid_standard_code_protocol_version:
+            type: num
+            sun2000_read@instance: GRID_STANDARD_CODE_PROTOCOL_VERSION
+            sun2000_cycle@instance: 24h
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        number_of_packages_to_be_upgraded:
+            type: num
+            sun2000_read@instance: NUMBER_OF_PACKAGES_TO_BE_UPGRADED
+            sun2000_cycle@instance: 24h
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+#        hardware_functional_unit_conf_id:
+#            type: num
+#            sun2000_read@instance: HARDWARE_FUNCTIONAL_UNIT_CONF_ID
+#            sun2000_cycle@instance: 24h
+#            sun2000_slave@instance: ..:.
+#            database@instance: init
+
+        subdevice_support_flag:
+            type: num
+            sun2000_read@instance: SUBDEVICE_SUPPORT_FLAG
+            sun2000_cycle@instance: 24h
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        subdevice_in_position_flag:
+            type: num
+            sun2000_read@instance: SUBDEVICE_IN_POSITION_FLAG
+            sun2000_cycle@instance: 24h
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        feature_mask_1:
+            type: num
+            sun2000_read@instance: FEATURE_MASK_1
+            sun2000_cycle@instance: 24h
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        feature_mask_2:
+            type: num
+            sun2000_read@instance: FEATURE_MASK_2
+            sun2000_cycle@instance: 24h
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        feature_mask_3:
+            type: num
+            sun2000_read@instance: FEATURE_MASK_3
+            sun2000_cycle@instance: 24h
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        feature_mask_4:
+            type: num
+            sun2000_read@instance: FEATURE_MASK_4
+            sun2000_cycle@instance: 24h
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+#        realtime_max_active_capability:
+#            type: num
+#            sun2000_read@instance: REALTIME_MAX_ACTIVE_CAPABILITY
+#            sun2000_cycle@instance: 24h
+#            sun2000_slave@instance: ..:.
+#            database@instance: init
+
+#        realtime_max_inductive_reactive_capacity:
+#            type: num
+#            sun2000_read@instance: REALTIME_MAX_INDUCTIVE_REACTIVE_CAPACITY
+#            sun2000_cycle@instance: 24h
+#            sun2000_slave@instance: ..:.
+#            database@instance: init
+
+        offering_name_of_southbound_device_1:
+            type: str
+            sun2000_read@instance: OFFERING_NAME_OF_SOUTHBOUND_DEVICE_1
+            sun2000_cycle@instance: 24h
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        offering_name_of_southbound_device_2:
+            type: str
+            sun2000_read@instance: OFFERING_NAME_OF_SOUTHBOUND_DEVICE_2
+            sun2000_cycle@instance: 24h
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        offering_name_of_southbound_device_3:
+            type: str
+            sun2000_read@instance: OFFERING_NAME_OF_SOUTHBOUND_DEVICE_3
+            sun2000_cycle@instance: 24h
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        hardware_version:
+            type: str
+            sun2000_read@instance: HARDWARE_VERSION
+            sun2000_cycle@instance: 24h
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        monitoring_board_sn:
+            type: str
+            sun2000_read@instance: MONITORING_BOARD_SN
+            sun2000_cycle@instance: 24h
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        monitoring_software_version:
+            type: str
+            sun2000_read@instance: MONITORING_SOFTWARE_VERSION
+            sun2000_cycle@instance: 24h
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        master_dsp_version:
+            type: str
+            sun2000_read@instance: MASTER_DSP_VERSION
+            sun2000_cycle@instance: 24h
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+#        slave_dsp_version:
+#            type: str
+#            sun2000_read@instance: SLAVE_DSP_VERSION
+#            sun2000_cycle@instance: 24h
+#            sun2000_slave@instance: ..:.
+#            database@instance: init
+
+        cpld_version:
+            type: str
+            sun2000_read@instance: CPLD_VERSION
+            sun2000_cycle@instance: 24h
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        afci_version:
+            type: str
+            sun2000_read@instance: AFCI_VERSION
+            sun2000_cycle@instance: 24h
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+#        builtin_pid_version:
+#            type: str
+#            sun2000_read@instance: BUILTIN_PID_VERSION
+#            sun2000_cycle@instance: 24h
+#            sun2000_slave@instance: ..:.
+#            database@instance: init
+
+        dc_mbus_version:
+            type: str
+            sun2000_read@instance: DC_MBUS_VERSION
+            sun2000_cycle@instance: 24h
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+#        el_module_version:
+#            type: str
+#            sun2000_read@instance: EL_MODULE_VERSION
+#            sun2000_cycle@instance: 24h
+#            sun2000_slave@instance: ..:.
+#            database@instance: init
+
+#        afci_2_version:
+#            type: str
+#            sun2000_read@instance: AFCI_2_VERSION
+#            sun2000_cycle@instance: 24h
+#            sun2000_slave@instance: ..:.
+#            database@instance: init
+
+        regkey:
+            type: str
+            sun2000_read@instance: REGKEY
+            sun2000_cycle@instance: 24h
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        state_1:
+            type: list
+            sun2000_read@instance: STATE_1
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        state_2:
+            type: list
+            sun2000_read@instance: STATE_2
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        state_3:
+            type: list
+            sun2000_read@instance: STATE_3
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        alarm_1:
+            type: list
+            sun2000_read@instance: ALARM_1
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        alarm_2:
+            type: list
+            sun2000_read@instance: ALARM_2
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        alarm_3:
+            type: list
+            sun2000_read@instance: ALARM_3
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        input_power:
+            type: num
+            sun2000_read@instance: INPUT_POWER
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        grid_voltage:
+            type: num
+            sun2000_read@instance: GRID_VOLTAGE
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        line_voltage_A_B:
+            type: num
+            sun2000_read@instance: LINE_VOLTAGE_A_B
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        line_voltage_B_C:
+            type: num
+            sun2000_read@instance: LINE_VOLTAGE_B_C
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        line_voltage_C_A:
+            type: num
+            sun2000_read@instance: LINE_VOLTAGE_C_A
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        phase_A_voltage:
+            type: num
+            sun2000_read@instance: PHASE_A_VOLTAGE
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        phase_B_voltage:
+            type: num
+            sun2000_read@instance: PHASE_B_VOLTAGE
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        phase_C_voltage:
+            type: num
+            sun2000_read@instance: PHASE_C_VOLTAGE
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        grid_current:
+            type: num
+            sun2000_read@instance: GRID_CURRENT
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        phase_A_current:
+            type: num
+            sun2000_read@instance: PHASE_A_CURRENT
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        phase_B_current:
+            type: num
+            sun2000_read@instance: PHASE_B_CURRENT
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        phase_C_current:
+            type: num
+            sun2000_read@instance: PHASE_C_CURRENT
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        day_active_power_peak:
+            type: num
+            sun2000_read@instance: DAY_ACTIVE_POWER_PEAK
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        active_power:
+            type: num
+            sun2000_read@instance: ACTIVE_POWER
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        reactive_power:
+            type: num
+            sun2000_read@instance: REACTIVE_POWER
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        power_factor:
+            type: num
+            sun2000_read@instance: POWER_FACTOR
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        grid_frequency:
+            type: num
+            sun2000_read@instance: GRID_FREQUENCY
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        efficiency:
+            type: num
+            sun2000_read@instance: EFFICIENCY
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        internal_temperature:
+            type: num
+            sun2000_read@instance: INTERNAL_TEMPERATURE
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        insulation_resistance:
+            type: num
+            sun2000_read@instance: INSULATION_RESISTANCE
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        device_status:
+            type: str
+            sun2000_read@instance: DEVICE_STATUS
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        fault_code:
+            type: num
+            sun2000_read@instance: FAULT_CODE
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        startup_time:
+            type: foo
+            sun2000_read@instance: STARTUP_TIME
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        shutdown_time:
+            type: foo
+            sun2000_read@instance: SHUTDOWN_TIME
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        accumulated_yield_energy:
+            type: num
+            sun2000_read@instance: ACCUMULATED_YIELD_ENERGY
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        total_dc_input_power:
+            type: num
+            sun2000_read@instance: TOTAL_DC_INPUT_POWER
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        current_electricity_generation_statistics_time:
+            type: foo
+            sun2000_read@instance: CURRENT_ELECTRICITY_GENERATION_STATISTICS_TIME
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        hourly_yield_energy:
+            type: num
+            sun2000_read@instance: HOURLY_YIELD_ENERGY
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        daily_yield_energy:
+            type: num
+            sun2000_read@instance: DAILY_YIELD_ENERGY
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        monthly_yield_energy:
+            type: num
+            sun2000_read@instance: MONTHLY_YIELD_ENERGY
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        yearly_yield_energy:
+            type: num
+            sun2000_read@instance: YEARLY_YIELD_ENERGY
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        latest_active_alarm_sn:
+            type: num
+            sun2000_read@instance: LATEST_ACTIVE_ALARM_SN
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        latest_historical_alarm_sn:
+            type: num
+            sun2000_read@instance: LATEST_HISTORICAL_ALARM_SN
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        total_bus_voltage:
+            type: num
+            sun2000_read@instance: TOTAL_BUS_VOLTAGE
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        max_pv_voltage:
+            type: num
+            sun2000_read@instance: MAX_PV_VOLTAGE
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        min_pv_voltage:
+            type: num
+            sun2000_read@instance: MIN_PV_VOLTAGE
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        average_pv_negative_voltage_to_ground:
+            type: num
+            sun2000_read@instance: AVERAGE_PV_NEGATIVE_VOLTAGE_TO_GROUND
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        min_pv_negative_voltage_to_ground:
+            type: num
+            sun2000_read@instance: MIN_PV_NEGATIVE_VOLTAGE_TO_GROUND
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        max_pv_negative_voltage_to_ground:
+            type: num
+            sun2000_read@instance: MAX_PV_NEGATIVE_VOLTAGE_TO_GROUND
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        inverter_to_pe_voltage_tolerance:
+            type: num
+            sun2000_read@instance: INVERTER_TO_PE_VOLTAGE_TOLERANCE
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        iso_feature_information:
+            type: num
+            sun2000_read@instance: ISO_FEATURE_INFORMATION
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        builtin_pid_running_status:
+            type: num
+            sun2000_read@instance: BUILTIN_PID_RUNNING_STATUS
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        pv_negative_voltage_to_ground:
+            type: num
+            sun2000_read@instance: PV_NEGATIVE_VOLTAGE_TO_GROUND
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        cumulative_dc_energy_yield_mppt1:
+            type: num
+            sun2000_read@instance: CUMULATIVE_DC_ENERGY_YIELD_MPPT1
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        cumulative_dc_energy_yield_mppt2:
+            type: num
+            sun2000_read@instance: CUMULATIVE_DC_ENERGY_YIELD_MPPT2
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        cumulative_dc_energy_yield_mppt3:
+            type: num
+            sun2000_read@instance: CUMULATIVE_DC_ENERGY_YIELD_MPPT3
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        cumulative_dc_energy_yield_mppt4:
+            type: num
+            sun2000_read@instance: CUMULATIVE_DC_ENERGY_YIELD_MPPT4
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        cumulative_dc_energy_yield_mppt5:
+            type: num
+            sun2000_read@instance: CUMULATIVE_DC_ENERGY_YIELD_MPPT5
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        cumulative_dc_energy_yield_mppt6:
+            type: num
+            sun2000_read@instance: CUMULATIVE_DC_ENERGY_YIELD_MPPT6
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        cumulative_dc_energy_yield_mppt7:
+            type: num
+            sun2000_read@instance: CUMULATIVE_DC_ENERGY_YIELD_MPPT7
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        cumulative_dc_energy_yield_mppt8:
+            type: num
+            sun2000_read@instance: CUMULATIVE_DC_ENERGY_YIELD_MPPT8
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        cumulative_dc_energy_yield_mppt9:
+            type: num
+            sun2000_read@instance: CUMULATIVE_DC_ENERGY_YIELD_MPPT9
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        cumulative_dc_energy_yield_mppt10:
+            type: num
+            sun2000_read@instance: CUMULATIVE_DC_ENERGY_YIELD_MPPT10
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        capbank_running_time:
+            type: num
+            sun2000_read@instance: CAPBANK_RUNNING_TIME
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        internal_fan_1_running_time:
+            type: num
+            sun2000_read@instance: INTERNAL_FAN_1_RUNNING_TIME
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        inv_module_a_temp:
+            type: num
+            sun2000_read@instance: INV_MODULE_A_TEMP
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        inv_module_b_temp:
+            type: num
+            sun2000_read@instance: INV_MODULE_B_TEMP
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        inv_module_c_temp:
+            type: num
+            sun2000_read@instance: INV_MODULE_C_TEMP
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        anti_reverse_module_1_temp:
+            type: num
+            sun2000_read@instance: ANTI_REVERSE_MODULE_1_TEMP
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        anti_reverse_module_2_temp:
+            type: num
+            sun2000_read@instance: ANTI_REVERSE_MODULE_2_TEMP
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        output_board_relay_ambient_temp_max:
+            type: num
+            sun2000_read@instance: OUTPUT_BOARD_RELAY_AMBIENT_TEMP_MAX
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        dc_terminal_1_2_max_temp:
+            type: num
+            sun2000_read@instance: DC_TERMINAL_1_2_MAX_TEMP
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        ac_terminal_1_2_3_max_temp:
+            type: num
+            sun2000_read@instance: AC_TERMINAL_1_2_3_MAX_TEMP
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        phase_a_dc_component_dci:
+            type: num
+            sun2000_read@instance: PHASE_A_DC_COMPONENT_DCI
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        phase_b_dc_component_dci:
+            type: num
+            sun2000_read@instance: PHASE_B_DC_COMPONENT_DCI
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        phase_c_dc_component_dci:
+            type: num
+            sun2000_read@instance: PHASE_C_DC_COMPONENT_DCI
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        leakage_current_rcd:
+            type: num
+            sun2000_read@instance: LEAKAGE_CURRENT_RCD
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        positive_bus_voltage:
+            type: num
+            sun2000_read@instance: POSITIVE_BUS_VOLTAGE
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        negative_bus_voltage:
+            type: num
+            sun2000_read@instance: NEGATIVE_BUS_VOLTAGE
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        bus_negative_voltage_to_ground:
+            type: num
+            sun2000_read@instance: BUS_NEGATIVE_VOLTAGE_TO_GROUND
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        nb_optimizers:
+            type: num
+            sun2000_read@instance: NB_OPTIMIZERS
+            sun2000_cycle@instance: 24h
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        nb_online_optimizers:
+            type: num
+            sun2000_read@instance: NB_ONLINE_OPTIMIZERS
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        system_time:
+            type: foo
+            sun2000_read@instance: SYSTEM_TIME
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        system_time_raw:
+            type: num
+            sun2000_read@instance: SYSTEM_TIME_RAW
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        q_u_characteristic_curve_model:
+            type: num
+            sun2000_read@instance: Q_U_CHARACTERISTIC_CURVE_MODEL
+            sun2000_write@instance: Q_U_CHARACTERISTIC_CURVE_MODEL
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        q_u_scheduling_trigger_power_percentage:
+            type: num
+            sun2000_read@instance: Q_U_SCHEDULING_TRIGGER_POWER_PERCENTAGE
+            sun2000_write@instance: Q_U_SCHEDULING_TRIGGER_POWER_PERCENTAGE
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        power_factor_2:
+            type: num
+            sun2000_read@instance: POWER_FACTOR_2
+            sun2000_write@instance: POWER_FACTOR_2
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        reactive_power_compensation:
+            type: num
+            sun2000_read@instance: REACTIVE_POWER_COMPENSATION
+            sun2000_write@instance: REACTIVE_POWER_COMPENSATION
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        reactive_power_adjustment_time:
+            type: num
+            sun2000_read@instance: REACTIVE_POWER_ADJUSTMENT_TIME
+            sun2000_write@instance: REACTIVE_POWER_ADJUSTMENT_TIME
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        active_power_percentage_derating:
+            type: num
+            sun2000_read@instance: ACTIVE_POWER_PERCENTAGE_DERATING
+            sun2000_write@instance: ACTIVE_POWER_PERCENTAGE_DERATING
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        active_power_fixed_value_derating:
+            type: num
+            sun2000_read@instance: ACTIVE_POWER_FIXED_VALUE_DERATING
+            sun2000_write@instance: ACTIVE_POWER_FIXED_VALUE_DERATING
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        reactive_power_compensation_at_night:
+            type: num
+            sun2000_read@instance: REACTIVE_POWER_COMPENSATION_AT_NIGHT
+            sun2000_write@instance: REACTIVE_POWER_COMPENSATION_AT_NIGHT
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        fixed_reactive_power_at_night:
+            type: num
+            sun2000_read@instance: FIXED_REACTIVE_POWER_AT_NIGHT
+            sun2000_write@instance: FIXED_REACTIVE_POWER_AT_NIGHT
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        characteristic_curve_reactive_power_adjustment_time:
+            type: num
+            sun2000_read@instance: CHARACTERISTIC_CURVE_REACTIVE_POWER_ADJUSTMENT_TIME
+            sun2000_write@instance: CHARACTERISTIC_CURVE_REACTIVE_POWER_ADJUSTMENT_TIME
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        percent_apparent_power:
+            type: num
+            sun2000_read@instance: PERCENT_APPARENT_POWER
+            sun2000_write@instance: PERCENT_APPARENT_POWER
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        q_u_scheduling_exit_power_percentage:
+            type: num
+            sun2000_read@instance: Q_U_SCHEDULING_EXIT_POWER_PERCENTAGE
+            sun2000_write@instance: Q_U_SCHEDULING_EXIT_POWER_PERCENTAGE
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        startup:
+            type: num
+            sun2000_write@instance: STARTUP
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        shutdown:
+            type: num
+            sun2000_write@instance: SHUTDOWN
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        grid_code:
+            type: foo
+            sun2000_read@instance: GRID_CODE
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        mppt_multimodal_scanning:
+            type: bool
+            sun2000_read@instance: MPPT_MULTIMODAL_SCANNING
+            sun2000_write@instance: MPPT_MULTIMODAL_SCANNING
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        mppt_scanning_interval:
+            type: num
+            sun2000_read@instance: MPPT_SCANNING_INTERVAL
+            sun2000_write@instance: MPPT_SCANNING_INTERVAL
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        mppt_predicted_power:
+            type: num
+            sun2000_read@instance: MPPT_PREDICTED_POWER
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        daylight_saving_time:
+            type: bool
+            sun2000_read@instance: DAYLIGHT_SAVING_TIME
+            sun2000_write@instance: DAYLIGHT_SAVING_TIME
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        time_zone:
+            type: num
+            sun2000_read@instance: TIME_ZONE
+            sun2000_write@instance: TIME_ZONE
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        wlan_wakeup:
+            type: foo
+            sun2000_read@instance: WLAN_WAKEUP
+            sun2000_write@instance: WLAN_WAKEUP
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        emma:
+            type: bool
+            sun2000_read@instance: SUN2000_EMMA
+            sun2000_write@instance: SUN2000_EMMA
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        sdongle:
+            sun2000_equipment@instance: SDONGLE
+            sun2000_slave@instance: default
+
+            total_input_power:
+                type: num
+                sun2000_read@instance: SDONGLE_TOTAL_INPUT_POWER
+                sun2000_slave@instance: ..:.
+                database@instance: init
+
+            load_power:
+                type: num
+                sun2000_read@instance: SDONGLE_LOAD_POWER
+                sun2000_slave@instance: ..:.
+                database@instance: init
+
+            grid_power:
+                type: num
+                sun2000_read@instance: SDONGLE_GRID_POWER
+                sun2000_slave@instance: ..:.
+                database@instance: init
+
+            total_battery_power:
+                type: num
+                sun2000_read@instance: SDONGLE_TOTAL_BATTERY_POWER
+                sun2000_slave@instance: ..:.
+                database@instance: init
+
+            total_active_power:
+                type: num
+                sun2000_read@instance: SDONGLE_TOTAL_ACTIVE_POWER
+                sun2000_slave@instance: ..:.
+                database@instance: init
+
+    meter:
+        sun2000_equipment@instance: METER
+        sun2000_slave@instance: default
+
+        meter_status:
+            type: num
+            sun2000_read@instance: METER_STATUS
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        grid_A_voltage:
+            type: num
+            sun2000_read@instance: GRID_A_VOLTAGE
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        grid_B_voltage:
+            type: num
+            sun2000_read@instance: GRID_B_VOLTAGE
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        grid_C_voltage:
+            type: num
+            sun2000_read@instance: GRID_C_VOLTAGE
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        active_grid_A_current:
+            type: num
+            sun2000_read@instance: ACTIVE_GRID_A_CURRENT
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        active_grid_B_current:
+            type: num
+            sun2000_read@instance: ACTIVE_GRID_B_CURRENT
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        active_grid_C_current:
+            type: num
+            sun2000_read@instance: ACTIVE_GRID_C_CURRENT
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        power_meter_active_power:
+            type: num
+            sun2000_read@instance: POWER_METER_ACTIVE_POWER
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        power_meter_reactive_power:
+            type: num
+            sun2000_read@instance: POWER_METER_REACTIVE_POWER
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        active_grid_power_factor:
+            type: num
+            sun2000_read@instance: ACTIVE_GRID_POWER_FACTOR
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        active_grid_frequency:
+            type: num
+            sun2000_read@instance: ACTIVE_GRID_FREQUENCY
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        grid_exported_energy:
+            type: num
+            sun2000_read@instance: GRID_EXPORTED_ENERGY
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        grid_accumulated_energy:
+            type: num
+            sun2000_read@instance: GRID_ACCUMULATED_ENERGY
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        grid_accumulated_reactive_power:
+            type: num
+            sun2000_read@instance: GRID_ACCUMULATED_REACTIVE_POWER
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        meter_type:
+            type: num
+            sun2000_read@instance: METER_TYPE
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        active_grid_A_B_voltage:
+            type: num
+            sun2000_read@instance: ACTIVE_GRID_A_B_VOLTAGE
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        active_grid_B_C_voltage:
+            type: num
+            sun2000_read@instance: ACTIVE_GRID_B_C_VOLTAGE
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        active_grid_C_A_voltage:
+            type: num
+            sun2000_read@instance: ACTIVE_GRID_C_A_VOLTAGE
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        active_grid_A_power:
+            type: num
+            sun2000_read@instance: ACTIVE_GRID_A_POWER
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        active_grid_B_power:
+            type: num
+            sun2000_read@instance: ACTIVE_GRID_B_POWER
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        active_grid_C_power:
+            type: num
+            sun2000_read@instance: ACTIVE_GRID_C_POWER
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        meter_type_check:
+            type: num
+            sun2000_read@instance: METER_TYPE_CHECK
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+    emma:
+        sun2000_equipment@instance: EMMA
+        sun2000_slave@instance: default
+
+        emma_software_version:
+            type: str
+            sun2000_read@instance: EMMA_SOFTWARE_VERSION
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        emma_model:
+            type: str
+            sun2000_read@instance: EMMA_MODEL
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        inverter_total_absorbed_energy:
+            type: num
+            sun2000_read@instance: INVERTER_TOTAL_ABSORBED_ENERGY
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        energy_charged_today:
+            type: num
+            sun2000_read@instance: ENERGY_CHARGED_TODAY
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        total_charged_energy:
+            type: num
+            sun2000_read@instance: TOTAL_CHARGED_ENERGY
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        energy_discharged_today:
+            type: num
+            sun2000_read@instance: ENERGY_DISCHARGED_TODAY
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        total_discharged_energy:
+            type: num
+            sun2000_read@instance: TOTAL_DISCHARGED_ENERGY
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        ess_chargeable_energy:
+            type: num
+            sun2000_read@instance: ESS_CHARGEABLE_ENERGY
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        ess_dischargeable_energy:
+            type: num
+            sun2000_read@instance: ESS_DISCHARGEABLE_ENERGY
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        rated_ess_capacity:
+            type: num
+            sun2000_read@instance: RATED_ESS_CAPACITY
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        consumption_today:
+            type: num
+            sun2000_read@instance: CONSUMPTION_TODAY
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        total_energy_consumption:
+            type: num
+            sun2000_read@instance: TOTAL_ENERGY_CONSUMPTION
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        feed_in_to_grid_today:
+            type: num
+            sun2000_read@instance: FEED_IN_TO_GRID_TODAY
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        total_feed_in_to_grid:
+            type: num
+            sun2000_read@instance: TOTAL_FEED_IN_TO_GRID
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        supply_from_grid_today:
+            type: num
+            sun2000_read@instance: SUPPLY_FROM_GRID_TODAY
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        total_supply_from_grid:
+            type: num
+            sun2000_read@instance: TOTAL_SUPPLY_FROM_GRID
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        inverter_energy_yield_today:
+            type: num
+            sun2000_read@instance: INVERTER_ENERGY_YIELD_TODAY
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        inverter_total_energy_yield:
+            type: num
+            sun2000_read@instance: INVERTER_TOTAL_ENERGY_YIELD
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        pv_yield_today:
+            type: num
+            sun2000_read@instance: PV_YIELD_TODAY
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        total_pv_energy_yield:
+            type: num
+            sun2000_read@instance: TOTAL_PV_ENERGY_YIELD
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        pv_output_power:
+            type: num
+            sun2000_read@instance: PV_OUTPUT_POWER
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        load_power:
+            type: num
+            sun2000_read@instance: LOAD_POWER
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        feed_in_power:
+            type: num
+            sun2000_read@instance: FEED_IN_POWER
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        battery_charge_discharge_power:
+            type: num
+            sun2000_read@instance: BATTERY_CHARGE_DISCHARGE_POWER
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        inverter_rated_power:
+            type: num
+            sun2000_read@instance: INVERTER_RATED_POWER
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        inverter_active_power:
+            type: num
+            sun2000_read@instance: INVERTER_ACTIVE_POWER
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        state_of_capacity:
+            type: num
+            sun2000_read@instance: STATE_OF_CAPACITY
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        ess_chargeable_capacity:
+            type: num
+            sun2000_read@instance: ESS_CHARGEABLE_CAPACITY
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        ess_dischargeable_capacity:
+            type: num
+            sun2000_read@instance: ESS_DISCHARGEABLE_CAPACITY
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        backup_power_state_of_charge:
+            type: num
+            sun2000_read@instance: BACKUP_POWER_STATE_OF_CHARGE
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        yield_this_month:
+            type: num
+            sun2000_read@instance: YIELD_THIS_MONTH
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        monthly_energy_consumption:
+            type: num
+            sun2000_read@instance: MONTHLY_ENERGY_CONSUMPTION
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        monthly_feed_in_to_grid:
+            type: num
+            sun2000_read@instance: MONTHLY_FEED_IN_TO_GRID
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        yield_this_year:
+            type: num
+            sun2000_read@instance: YIELD_THIS_YEAR
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        annual_energy_consumption:
+            type: num
+            sun2000_read@instance: ANNUAL_ENERGY_CONSUMPTION
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        yearly_feed_in_to_grid:
+            type: num
+            sun2000_read@instance: YEARLY_FEED_IN_TO_GRID
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        monthly_supply_from_grid:
+            type: num
+            sun2000_read@instance: MONTHLY_SUPPLY_FROM_GRID
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        yearly_supply_from_grid:
+            type: num
+            sun2000_read@instance: YEARLY_SUPPLY_FROM_GRID
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        backup_time_notification_threshold:
+            type: num
+            sun2000_read@instance: BACKUP_TIME_NOTIFICATION_THRESHOLD
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        energy_charged_this_month:
+            type: num
+            sun2000_read@instance: ENERGY_CHARGED_THIS_MONTH
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        energy_discharged_this_month:
+            type: num
+            sun2000_read@instance: ENERGY_DISCHARGED_THIS_MONTH
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        number_of_inverters_found:
+            type: num
+            sun2000_read@instance: NUMBER_OF_INVERTERS_FOUND
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        number_of_chargers_found:
+            type: num
+            sun2000_read@instance: NUMBER_OF_CHARGERS_FOUND
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        emma_ess_control_mode:
+            type: num
+            sun2000_read@instance: EMMA_ESS_CONTROL_MODE
+            sun2000_write@instance: EMMA_ESS_CONTROL_MODE
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        emma_tou_preferred_use_of_surplus_pv_power:
+            type: num
+            sun2000_read@instance: EMMA_TOU_PREFERRED_USE_OF_SURPLUS_PV_POWER
+            sun2000_write@instance: EMMA_TOU_PREFERRED_USE_OF_SURPLUS_PV_POWER
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        emma_tou_maximunm_power_for_charging_batteries_from_grid:
+            type: num
+            sun2000_read@instance: EMMA_TOU_MAXIMUNM_POWER_FOR_CHARGING_BATTERIES_FROM_GRID
+            sun2000_write@instance: EMMA_TOU_MAXIMUNM_POWER_FOR_CHARGING_BATTERIES_FROM_GRID
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        emma_power_control_mode_at_grid_connection_point:
+            type: num
+            sun2000_read@instance: EMMA_POWER_CONTROL_MODE_AT_GRID_CONNECTION_POINT
+            sun2000_write@instance: EMMA_POWER_CONTROL_MODE_AT_GRID_CONNECTION_POINT
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        emma_limitation_mode:
+            type: num
+            sun2000_read@instance: EMMA_LIMITATION_MODE
+            sun2000_write@instance: EMMA_LIMITATION_MODE
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        emma_maximum_feed_grid_power_watt:
+            type: num
+            sun2000_read@instance: EMMA_MAXIMUM_FEED_GRID_POWER_WATT
+            sun2000_write@instance: EMMA_MAXIMUM_FEED_GRID_POWER_WATT
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        emma_maximum_feed_grid_power_percent:
+            type: num
+            sun2000_read@instance: EMMA_MAXIMUM_FEED_GRID_POWER_PERCENT
+            sun2000_write@instance: EMMA_MAXIMUM_FEED_GRID_POWER_PERCENT
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        emma_3phase_imbalance_control:
+            type: num
+            sun2000_read@instance: EMMA_3PHASE_IMBALANCE_CONTROL
+            sun2000_write@instance: EMMA_3PHASE_IMBALANCE_CONTROL
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        emma_power_supply_configuration:
+            type: num
+            sun2000_read@instance: EMMA_POWER_SUPPLY_CONFIGURATION
+            sun2000_write@instance: EMMA_POWER_SUPPLY_CONFIGURATION
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        emma_consider_mains_faulty_if:
+            type: num
+            sun2000_read@instance: EMMA_CONSIDER_MAINS_FAULTY_IF
+            sun2000_write@instance: EMMA_CONSIDER_MAINS_FAULTY_IF
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        local_time_year:
+            type: num
+            sun2000_read@instance: LOCAL_TIME_YEAR
+            sun2000_write@instance: LOCAL_TIME_YEAR
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        built_in_energy_sensor:
+            sun2000_equipment@instance: EMMA_BUILT_IN_ENERGY_SENSOR
+            sun2000_slave@instance: default
+
+            phase_a_voltage:
+                type: num
+                sun2000_read@instance: PHASE_A_VOLTAGE_BUILT_IN_ENERGY_SENSOR
+                sun2000_equipment@instance: ..:.
+                sun2000_slave@instance: ..:.
+                database@instance: init
+
+            phase_b_voltage:
+                type: num
+                sun2000_read@instance: PHASE_B_VOLTAGE_BUILT_IN_ENERGY_SENSOR
+                sun2000_equipment@instance: ..:.
+                sun2000_slave@instance: ..:.
+                database@instance: init
+
+            phase_c_voltage:
+                type: num
+                sun2000_read@instance: PHASE_C_VOLTAGE_BUILT_IN_ENERGY_SENSOR
+                sun2000_equipment@instance: ..:.
+                sun2000_slave@instance: ..:.
+                database@instance: init
+
+            line_voltage_a_b:
+                type: num
+                sun2000_read@instance: LINE_VOLTAGE_A_B_BUILT_IN_ENERGY_SENSOR
+                sun2000_equipment@instance: ..:.
+                sun2000_slave@instance: ..:.
+                database@instance: init
+
+            line_voltage_b_c:
+                type: num
+                sun2000_read@instance: LINE_VOLTAGE_B_C_BUILT_IN_ENERGY_SENSOR
+                sun2000_equipment@instance: ..:.
+                sun2000_slave@instance: ..:.
+                database@instance: init
+
+            line_voltage_c_a:
+                type: num
+                sun2000_read@instance: LINE_VOLTAGE_C_A_BUILT_IN_ENERGY_SENSOR
+                sun2000_equipment@instance: ..:.
+                sun2000_slave@instance: ..:.
+                database@instance: init
+
+            phase_a_current:
+                type: num
+                sun2000_read@instance: PHASE_A_CURRENT_BUILT_IN_ENERGY_SENSOR
+                sun2000_equipment@instance: ..:.
+                sun2000_slave@instance: ..:.
+                database@instance: init
+
+            phase_b_current:
+                type: num
+                sun2000_read@instance: PHASE_B_CURRENT_BUILT_IN_ENERGY_SENSOR
+                sun2000_equipment@instance: ..:.
+                sun2000_slave@instance: ..:.
+                database@instance: init
+
+            phase_c_current:
+                type: num
+                sun2000_read@instance: PHASE_C_CURRENT_BUILT_IN_ENERGY_SENSOR
+                sun2000_equipment@instance: ..:.
+                sun2000_slave@instance: ..:.
+                database@instance: init
+
+            active_power:
+                type: num
+                sun2000_read@instance: ACTIVE_POWER_BUILT_IN_ENERGY_SENSOR
+                sun2000_equipment@instance: ..:.
+                sun2000_slave@instance: ..:.
+                database@instance: init
+
+            power_factor:
+                type: num
+                sun2000_read@instance: POWER_FACTOR_BUILT_IN_ENERGY_SENSOR
+                sun2000_equipment@instance: ..:.
+                sun2000_slave@instance: ..:.
+                database@instance: init
+
+            apparent_power:
+                type: num
+                sun2000_read@instance: APPARENT_POWER_BUILT_IN_ENERGY_SENSOR
+                sun2000_equipment@instance: ..:.
+                sun2000_slave@instance: ..:.
+                database@instance: init
+
+            phase_a_active_power:
+                type: num
+                sun2000_read@instance: PHASE_A_ACTIVE_POWER_BUILT_IN_ENERGY_SENSOR
+                sun2000_equipment@instance: ..:.
+                sun2000_slave@instance: ..:.
+                database@instance: init
+
+            phase_b_active_power:
+                type: num
+                sun2000_read@instance: PHASE_B_ACTIVE_POWER_BUILT_IN_ENERGY_SENSOR
+                sun2000_equipment@instance: ..:.
+                sun2000_slave@instance: ..:.
+                database@instance: init
+
+            phase_c_active_power:
+                type: num
+                sun2000_read@instance: PHASE_C_ACTIVE_POWER_BUILT_IN_ENERGY_SENSOR
+                sun2000_equipment@instance: ..:.
+                sun2000_slave@instance: ..:.
+                database@instance: init
+
+            total_active_energy:
+                type: num
+                sun2000_read@instance: TOTAL_ACTIVE_ENERGY_BUILT_IN_ENERGY_SENSOR
+                sun2000_equipment@instance: ..:.
+                sun2000_slave@instance: ..:.
+                database@instance: init
+
+            total_negative_active_energy:
+                type: num
+                sun2000_read@instance: TOTAL_NEGATIVE_ACTIVE_ENERGY_BUILT_IN_ENERGY_SENSOR
+                sun2000_equipment@instance: ..:.
+                sun2000_slave@instance: ..:.
+                database@instance: init
+
+            total_positive_active_energy:
+                type: num
+                sun2000_read@instance: TOTAL_POSITIVE_ACTIVE_ENERGY_BUILT_IN_ENERGY_SENSOR
+                sun2000_equipment@instance: ..:.
+                sun2000_slave@instance: ..:.
+                database@instance: init
+
+        external_ernergy_sensor:
+            sun2000_equipment@instance: EMMA_EXTERNAL_ENERGY_SENSOR
+            sun2000_slave@instance: default
+
+            phase_a_voltage:
+                type: num
+                sun2000_read@instance: PHASE_A_VOLTAGE_EXTERNAL_ENERGY_SENSOR
+                sun2000_equipment@instance: ..:.
+                sun2000_slave@instance: ..:.
+                database@instance: init
+
+            phase_b_voltage:
+                type: num
+                sun2000_read@instance: PHASE_B_VOLTAGE_EXTERNAL_ENERGY_SENSOR
+                sun2000_equipment@instance: ..:.
+                sun2000_slave@instance: ..:.
+                database@instance: init
+
+            phase_c_voltage:
+                type: num
+                sun2000_read@instance: PHASE_C_VOLTAGE_EXTERNAL_ENERGY_SENSOR
+                sun2000_equipment@instance: ..:.
+                sun2000_slave@instance: ..:.
+                database@instance: init
+
+            line_voltage_a_b:
+                type: num
+                sun2000_read@instance: LINE_VOLTAGE_A_B_EXTERNAL_ENERGY_SENSOR
+                sun2000_equipment@instance: ..:.
+                sun2000_slave@instance: ..:.
+                database@instance: init
+
+            line_voltage_b_c:
+                type: num
+                sun2000_read@instance: LINE_VOLTAGE_B_C_EXTERNAL_ENERGY_SENSOR
+                sun2000_equipment@instance: ..:.
+                sun2000_slave@instance: ..:.
+                database@instance: init
+
+            line_voltage_c_a:
+                type: num
+                sun2000_read@instance: LINE_VOLTAGE_C_A_EXTERNAL_ENERGY_SENSOR
+                sun2000_equipment@instance: ..:.
+                sun2000_slave@instance: ..:.
+                database@instance: init
+
+            phase_a_current:
+                type: num
+                sun2000_read@instance: PHASE_A_CURRENT_EXTERNAL_ENERGY_SENSOR
+                sun2000_equipment@instance: ..:.
+                sun2000_slave@instance: ..:.
+                database@instance: init
+
+            phase_b_current:
+                type: num
+                sun2000_read@instance: PHASE_B_CURRENT_EXTERNAL_ENERGY_SENSOR
+                sun2000_equipment@instance: ..:.
+                sun2000_slave@instance: ..:.
+                database@instance: init
+
+            phase_c_current:
+                type: num
+                sun2000_read@instance: PHASE_C_CURRENT_EXTERNAL_ENERGY_SENSOR
+                sun2000_equipment@instance: ..:.
+                sun2000_slave@instance: ..:.
+                database@instance: init
+
+            active_power:
+                type: num
+                sun2000_read@instance: ACTIVE_POWER_EXTERNAL_ENERGY_SENSOR
+                sun2000_equipment@instance: ..:.
+                sun2000_slave@instance: ..:.
+                database@instance: init
+
+            power_factor:
+                type: num
+                sun2000_read@instance: POWER_FACTOR_EXTERNAL_ENERGY_SENSOR
+                sun2000_equipment@instance: ..:.
+                sun2000_slave@instance: ..:.
+                database@instance: init
+
+            apparent_power:
+                type: num
+                sun2000_read@instance: APPARENT_POWER_EXTERNAL_ENERGY_SENSOR
+                sun2000_equipment@instance: ..:.
+                sun2000_slave@instance: ..:.
+                database@instance: init
+
+            phase_a_active_power:
+                type: num
+                sun2000_read@instance: PHASE_A_ACTIVE_POWER_EXTERNAL_ENERGY_SENSOR
+                sun2000_equipment@instance: ..:.
+                sun2000_slave@instance: ..:.
+                database@instance: init
+
+            phase_b_active_power:
+                type: num
+                sun2000_read@instance: PHASE_B_ACTIVE_POWER_EXTERNAL_ENERGY_SENSOR
+                sun2000_equipment@instance: ..:.
+                sun2000_slave@instance: ..:.
+                database@instance: init
+
+            phase_c_active_power:
+                type: num
+                sun2000_read@instance: PHASE_C_ACTIVE_POWER_EXTERNAL_ENERGY_SENSOR
+                sun2000_equipment@instance: ..:.
+                sun2000_slave@instance: ..:.
+                database@instance: init
+
+            total_active_energy:
+                type: num
+                sun2000_read@instance: TOTAL_ACTIVE_ENERGY_EXTERNAL_ENERGY_SENSOR
+                sun2000_equipment@instance: ..:.
+                sun2000_slave@instance: ..:.
+                database@instance: init
+
+            total_negative_active_energy:
+                type: num
+                sun2000_read@instance: TOTAL_NEGATIVE_ACTIVE_ENERGY_EXTERNAL_ENERGY_SENSOR
+                sun2000_equipment@instance: ..:.
+                sun2000_slave@instance: ..:.
+                database@instance: init
+
+            total_positive_active_energy:
+                type: num
+                sun2000_read@instance: TOTAL_POSITIVE_ACTIVE_ENERGY_EXTERNAL_ENERGY_SENSOR
+                sun2000_equipment@instance: ..:.
+                sun2000_slave@instance: ..:.
+                database@instance: init
+
+        external_meter:
+            sun2000_equipment@instance: EMMA_EXTERNAL_METER
+            sun2000_slave@instance: default
+
+            emma_external_meter_running_status:
+                type: num
+                sun2000_read@instance: EMMA_EXTERNAL_METER_RUNNING_STATUS
+                sun2000_equipment@instance: ..:.
+                sun2000_slave@instance: ..:.
+                database@instance: init
+
+            emma_external_meter_phase_a_voltage:
+                type: num
+                sun2000_read@instance: EMMA_EXTERNAL_METER_PHASE_A_VOLTAGE
+                sun2000_equipment@instance: ..:.
+                sun2000_slave@instance: ..:.
+                database@instance: init
+
+            emma_external_meter_phase_b_voltage:
+                type: num
+                sun2000_read@instance: EMMA_EXTERNAL_METER_PHASE_B_VOLTAGE
+                sun2000_equipment@instance: ..:.
+                sun2000_slave@instance: ..:.
+                database@instance: init
+
+            emma_external_meter_phase_c_voltage:
+                type: num
+                sun2000_read@instance: EMMA_EXTERNAL_METER_PHASE_C_VOLTAGE
+                sun2000_equipment@instance: ..:.
+                sun2000_slave@instance: ..:.
+                database@instance: init
+
+            emma_external_meter_line_voltage_a_b:
+                type: num
+                sun2000_read@instance: EMMA_EXTERNAL_METER_LINE_VOLTAGE_A_B
+                sun2000_equipment@instance: ..:.
+                sun2000_slave@instance: ..:.
+                database@instance: init
+
+            emma_external_meter_line_voltage_b_c:
+                type: num
+                sun2000_read@instance: EMMA_EXTERNAL_METER_LINE_VOLTAGE_B_C
+                sun2000_equipment@instance: ..:.
+                sun2000_slave@instance: ..:.
+                database@instance: init
+
+            emma_external_meter_line_voltage_c_a:
+                type: num
+                sun2000_read@instance: EMMA_EXTERNAL_METER_LINE_VOLTAGE_C_A
+                sun2000_equipment@instance: ..:.
+                sun2000_slave@instance: ..:.
+                database@instance: init
+
+            emma_external_meter_phase_a_current:
+                type: num
+                sun2000_read@instance: EMMA_EXTERNAL_METER_PHASE_A_CURRENT
+                sun2000_equipment@instance: ..:.
+                sun2000_slave@instance: ..:.
+                database@instance: init
+
+            emma_external_meter_phase_b_current:
+                type: num
+                sun2000_read@instance: EMMA_EXTERNAL_METER_PHASE_B_CURRENT
+                sun2000_equipment@instance: ..:.
+                sun2000_slave@instance: ..:.
+                database@instance: init
+
+            emma_external_meter_phase_c_current:
+                type: num
+                sun2000_read@instance: EMMA_EXTERNAL_METER_PHASE_C_CURRENT
+                sun2000_equipment@instance: ..:.
+                sun2000_slave@instance: ..:.
+                database@instance: init
+
+            emma_external_meter_active_power:
+                type: num
+                sun2000_read@instance: EMMA_EXTERNAL_METER_ACTIVE_POWER
+                sun2000_equipment@instance: ..:.
+                sun2000_slave@instance: ..:.
+                database@instance: init
+
+            emma_external_meter_power_factor:
+                type: num
+                sun2000_read@instance: EMMA_EXTERNAL_METER_POWER_FACTOR
+                sun2000_equipment@instance: ..:.
+                sun2000_slave@instance: ..:.
+                database@instance: init
+
+            emma_external_meter_apparent_power:
+                type: num
+                sun2000_read@instance: EMMA_EXTERNAL_METER_APPARENT_POWER
+                sun2000_equipment@instance: ..:.
+                sun2000_slave@instance: ..:.
+                database@instance: init
+
+            emma_external_meter_phase_a_active_power:
+                type: num
+                sun2000_read@instance: EMMA_EXTERNAL_METER_PHASE_A_ACTIVE_POWER
+                sun2000_equipment@instance: ..:.
+                sun2000_slave@instance: ..:.
+                database@instance: init
+
+            emma_external_meter_phase_b_active_power:
+                type: num
+                sun2000_read@instance: EMMA_EXTERNAL_METER_PHASE_B_ACTIVE_POWER
+                sun2000_equipment@instance: ..:.
+                sun2000_slave@instance: ..:.
+                database@instance: init
+
+            emma_external_meter_phase_c_active_power:
+                type: num
+                sun2000_read@instance: EMMA_EXTERNAL_METER_PHASE_C_ACTIVE_POWER
+                sun2000_equipment@instance: ..:.
+                sun2000_slave@instance: ..:.
+                database@instance: init
+
+            emma_external_meter_total_active_energy:
+                type: num
+                sun2000_read@instance: EMMA_EXTERNAL_METER_TOTAL_ACTIVE_ENERGY
+                sun2000_equipment@instance: ..:.
+                sun2000_slave@instance: ..:.
+                database@instance: init
+
+            emma_external_meter_total_negative_active_energy:
+                type: num
+                sun2000_read@instance: EMMA_EXTERNAL_METER_TOTAL_NEGATIVE_ACTIVE_ENERGY
+                sun2000_equipment@instance: ..:.
+                sun2000_slave@instance: ..:.
+                database@instance: init
+
+            emma_external_meter_total_positive_active_energy:
+                type: num
+                sun2000_read@instance: EMMA_EXTERNAL_METER_TOTAL_POSITIVE_ACTIVE_ENERGY
+                sun2000_equipment@instance: ..:.
+                sun2000_slave@instance: ..:.
+                database@instance: init
+
+
+    storage:
+        sun2000_equipment@instance: STORAGE
+        sun2000_slave@instance: default
+
+        maximum_charge_power:
+            type: num
+            sun2000_read@instance: STORAGE_MAXIMUM_CHARGE_POWER
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        maximum_discharge_power:
+            type: num
+            sun2000_read@instance: STORAGE_MAXIMUM_DISCHARGE_POWER
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        rated_capacity:
+            type: num
+            sun2000_read@instance: STORAGE_RATED_CAPACITY
+            sun2000_equipment@instance: ..:.
+            sun2000_cycle@instance: 24h
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        state_of_capacity:
+            type: num
+            sun2000_read@instance: STORAGE_STATE_OF_CAPACITY
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        running_status:
+            type: num
+            sun2000_read@instance: STORAGE_RUNNING_STATUS
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        bus_voltage:
+            type: num
+            sun2000_read@instance: STORAGE_BUS_VOLTAGE
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        bus_current:
+            type: num
+            sun2000_read@instance: STORAGE_BUS_CURRENT
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        charge_discharge_power:
+            type: num
+            sun2000_read@instance: STORAGE_CHARGE_DISCHARGE_POWER
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        total_charge:
+            type: num
+            sun2000_read@instance: STORAGE_TOTAL_CHARGE
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        total_discharge:
+            type: num
+            sun2000_read@instance: STORAGE_TOTAL_DISCHARGE
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        current_day_charge_capacity:
+            type: num
+            sun2000_read@instance: STORAGE_CURRENT_DAY_CHARGE_CAPACITY
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        current_day_discharge_capacity:
+            type: num
+            sun2000_read@instance: STORAGE_CURRENT_DAY_DISCHARGE_CAPACITY
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        working_mode_a:
+            type: num
+            sun2000_read@instance: STORAGE_WORKING_MODE_A
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        time_of_use_price:
+            type: bool
+            sun2000_read@instance: STORAGE_TIME_OF_USE_PRICE
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        huawei_luna2000_time_of_use_price_periods:
+            type: foo
+            sun2000_read@instance: STORAGE_HUAWEI_LUNA2000_TIME_OF_USE_PRICE_PERIODS
+            sun2000_write@instance: STORAGE_HUAWEI_LUNA2000_TIME_OF_USE_PRICE_PERIODS
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+
+        lg_resu_time_of_use_price_periods:
+            type: foo
+            sun2000_read@instance: STORAGE_LG_RESU_TIME_OF_USE_PRICE_PERIODS
+            sun2000_write@instance: STORAGE_LG_RESU_TIME_OF_USE_PRICE_PERIODS
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+
+        lcoe:
+            type: num
+            sun2000_read@instance: STORAGE_LCOE
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        maximum_charging_power:
+            type: num
+            sun2000_read@instance: STORAGE_MAXIMUM_CHARGING_POWER
+            sun2000_write@instance: STORAGE_MAXIMUM_CHARGING_POWER
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        maximum_discharging_power:
+            type: num
+            sun2000_read@instance: STORAGE_MAXIMUM_DISCHARGING_POWER
+            sun2000_write@instance: STORAGE_MAXIMUM_DISCHARGING_POWER
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        power_limit_grid_tied_point:
+            type: num
+            sun2000_read@instance: STORAGE_POWER_LIMIT_GRID_TIED_POINT
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        charging_cutoff_capacity:
+            type: num
+            sun2000_read@instance: STORAGE_CHARGING_CUTOFF_CAPACITY
+            sun2000_write@instance: STORAGE_CHARGING_CUTOFF_CAPACITY
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        discharging_cutoff_capacity:
+            type: num
+            sun2000_read@instance: STORAGE_DISCHARGING_CUTOFF_CAPACITY
+            sun2000_write@instance: STORAGE_DISCHARGING_CUTOFF_CAPACITY
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        forced_charging_and_discharging_period:
+            type: num
+            sun2000_read@instance: STORAGE_FORCED_CHARGING_AND_DISCHARGING_PERIOD
+            sun2000_write@instance: STORAGE_FORCED_CHARGING_AND_DISCHARGING_PERIOD
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        forced_charging_and_discharging_power:
+            type: num
+            sun2000_read@instance: STORAGE_FORCED_CHARGING_AND_DISCHARGING_POWER
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        working_mode_settings:
+            type: num
+            sun2000_read@instance: STORAGE_WORKING_MODE_SETTINGS
+            sun2000_write@instance: STORAGE_WORKING_MODE_SETTINGS
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        charge_from_grid_function:
+            type: bool
+            sun2000_read@instance: STORAGE_CHARGE_FROM_GRID_FUNCTION
+            sun2000_write@instance: STORAGE_CHARGE_FROM_GRID_FUNCTION
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        grid_charge_cutoff_state_of_charge:
+            type: num
+            sun2000_read@instance: STORAGE_GRID_CHARGE_CUTOFF_STATE_OF_CHARGE
+            sun2000_write@instance: STORAGE_GRID_CHARGE_CUTOFF_STATE_OF_CHARGE
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        forcible_charge_discharge_write:
+            type: num
+            sun2000_read@instance: STORAGE_FORCIBLE_CHARGE_DISCHARGE_WRITE
+            sun2000_write@instance: STORAGE_FORCIBLE_CHARGE_DISCHARGE_WRITE
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        forcible_charge_discharge_soc:
+            type: num
+            sun2000_read@instance: STORAGE_FORCIBLE_CHARGE_DISCHARGE_SOC
+            sun2000_write@instance: STORAGE_FORCIBLE_CHARGE_DISCHARGE_SOC
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        backup_power_state_of_charge:
+            type: num
+            sun2000_read@instance: STORAGE_BACKUP_POWER_STATE_OF_CHARGE
+            sun2000_write@instance: STORAGE_BACKUP_POWER_STATE_OF_CHARGE
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        fixed_charging_and_discharging_periods:
+            type: foo
+            sun2000_read@instance: STORAGE_FIXED_CHARGING_AND_DISCHARGING_PERIODS
+            sun2000_write@instance: STORAGE_FIXED_CHARGING_AND_DISCHARGING_PERIODS
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        power_of_charge_from_grid:
+            type: num
+            sun2000_read@instance: STORAGE_POWER_OF_CHARGE_FROM_GRID
+            sun2000_write@instance: STORAGE_POWER_OF_CHARGE_FROM_GRID
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        maximum_power_of_charge_from_grid:
+            type: num
+            sun2000_read@instance: STORAGE_MAXIMUM_POWER_OF_CHARGE_FROM_GRID
+            sun2000_write@instance: STORAGE_MAXIMUM_POWER_OF_CHARGE_FROM_GRID
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        forcible_charge_discharge_setting_mode:
+            type: num
+            sun2000_read@instance: STORAGE_FORCIBLE_CHARGE_DISCHARGE_SETTING_MODE
+            sun2000_write@instance: STORAGE_FORCIBLE_CHARGE_DISCHARGE_SETTING_MODE
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        forcible_charge_power:
+            type: num
+            sun2000_read@instance: STORAGE_FORCIBLE_CHARGE_POWER
+            sun2000_write@instance: STORAGE_FORCIBLE_CHARGE_POWER
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        forcible_discharge_power:
+            type: num
+            sun2000_read@instance: STORAGE_FORCIBLE_DISCHARGE_POWER
+            sun2000_write@instance: STORAGE_FORCIBLE_DISCHARGE_POWER
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        lg_resu_time_of_use_charging_and_discharging_periods:
+            type: foo
+            sun2000_read@instance: STORAGE_LG_RESU_TIME_OF_USE_CHARGING_AND_DISCHARGING_PERIODS
+            sun2000_write@instance: STORAGE_LG_RESU_TIME_OF_USE_CHARGING_AND_DISCHARGING_PERIODS
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        huawei_luna2000_time_of_use_charging_and_discharging_periods:
+            type: foo
+            sun2000_read@instance: STORAGE_HUAWEI_LUNA2000_TIME_OF_USE_CHARGING_AND_DISCHARGING_PERIODS
+            sun2000_write@instance: STORAGE_HUAWEI_LUNA2000_TIME_OF_USE_CHARGING_AND_DISCHARGING_PERIODS
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        excess_pv_energy_use_in_tou:
+            type: num
+            sun2000_read@instance: STORAGE_EXCESS_PV_ENERGY_USE_IN_TOU
+            sun2000_writed@instance: STORAGE_EXCESS_PV_ENERGY_USE_IN_TOU
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        active_power_control_mode:
+            type: num
+            sun2000_read@instance: ACTIVE_POWER_CONTROL_MODE
+            sun2000_write@instance: ACTIVE_POWER_CONTROL_MODE
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        maximum_feed_grid_power_watt:
+            type: num
+            sun2000_read@instance: MAXIMUM_FEED_GRID_POWER_WATT
+            sun2000_write@instance: MAXIMUM_FEED_GRID_POWER_WATT
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        maximum_feed_grid_power_percent:
+            type: num
+            sun2000_read@instance: MAXIMUM_FEED_GRID_POWER_PERCENT
+            sun2000_write@instance: MAXIMUM_FEED_GRID_POWER_PERCENT
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        remote_charge_discharge_control_mode:
+            type: num
+            sun2000_read@instance: REMOTE_CHARGE_DISCHARGE_CONTROL_MODE
+            sun2000_write@instance: REMOTE_CHARGE_DISCHARGE_CONTROL_MODE
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        dongle_plant_maximum_charge_from_grid_power:
+            type: num
+            sun2000_read@instance: DONGLE_PLANT_MAXIMUM_CHARGE_FROM_GRID_POWER
+            sun2000_write@instance: DONGLE_PLANT_MAXIMUM_CHARGE_FROM_GRID_POWER
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        backup_switch_to_off_grid:
+            type: num
+            sun2000_read@instance: BACKUP_SWITCH_TO_OFF_GRID
+            sun2000_write@instance: BACKUP_SWITCH_TO_OFF_GRID
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+#        backup_voltage_independend_operation:
+#            type: num
+#            sun2000_read@instance: BACKUP_VOLTAGE_INDEPENDEND_OPERATION
+#            sun2000_write@instance: BACKUP_VOLTAGE_INDEPENDEND_OPERATION
+#            sun2000_equipment@instance: ..:.
+#            sun2000_slave@instance: ..:.
+
+        default_maximum_feed_in_power:
+            type: num
+            sun2000_read@instance: DEFAULT_MAXIMUM_FEED_IN_POWER
+            sun2000_write@instance: DEFAULT_MAXIMUM_FEED_IN_POWER
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        default_active_power_change_gradient:
+            type: num
+            sun2000_read@instance: DEFAULT_ACTIVE_POWER_CHANGE_GRADIENT
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+#STORAGE_CAPACITY_CONTROL_MODE
+#STORAGE_CAPACITY_CONTROL_SOC_PEAK_SHAVING
+#STORAGE_CAPACITY_CONTROL_PERIODS
+
+    storage_unit_1:
+        sun2000_equipment@instance: STORAGE_UNIT_1
+        sun2000_slave@instance: default
+
+        running_status:
+            type: num
+            sun2000_read@instance: STORAGE_UNIT_1_RUNNING_STATUS
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        charge_discharge_power:
+            type: num
+            sun2000_read@instance: STORAGE_UNIT_1_CHARGE_DISCHARGE_POWER
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        bus_voltage:
+            type: num
+            sun2000_read@instance: STORAGE_UNIT_1_BUS_VOLTAGE
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        state_of_capacity:
+            type: num
+            sun2000_read@instance: STORAGE_UNIT_1_STATE_OF_CAPACITY
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        working_mode_b:
+            type: foo
+            sun2000_read@instance: STORAGE_UNIT_1_WORKING_MODE_B
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        rated_charge_power:
+            type: num
+            sun2000_read@instance: STORAGE_UNIT_1_RATED_CHARGE_POWER
+            sun2000_equipment@instance: ..:.
+            sun2000_cycle@instance: 24h
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        rated_discharge_power:
+            type: num
+            sun2000_read@instance: STORAGE_UNIT_1_RATED_DISCHARGE_POWER
+            sun2000_equipment@instance: ..:.
+            sun2000_cycle@instance: 24h
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        fault_id:
+            type: num
+            sun2000_read@instance: STORAGE_UNIT_1_FAULT_ID
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        current_day_charge_capacity:
+            type: num
+            sun2000_read@instance: STORAGE_UNIT_1_CURRENT_DAY_CHARGE_CAPACITY
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        current_day_discharge_capacity:
+            type: num
+            sun2000_read@instance: STORAGE_UNIT_1_CURRENT_DAY_DISCHARGE_CAPACITY
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        bus_current:
+            type: num
+            sun2000_read@instance: STORAGE_UNIT_1_BUS_CURRENT
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        battery_temperature:
+            type: num
+            sun2000_read@instance: STORAGE_UNIT_1_BATTERY_TEMPERATURE
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        remaining_charge_discharge_time:
+            type: num
+            sun2000_read@instance: STORAGE_UNIT_1_REMAINING_CHARGE_DIS_CHARGE_TIME
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        dcdc_version:
+            type: str
+            sun2000_read@instance: STORAGE_UNIT_1_DCDC_VERSION
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        bms_version:
+            type: str
+            sun2000_read@instance: STORAGE_UNIT_1_BMS_VERSION
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        serial_number:
+            type: str
+            sun2000_read@instance: STORAGE_UNIT_1_SERIAL_NUMBER
+            sun2000_equipment@instance: ..:.
+            sun2000_cycle@instance: 24h
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        total_charge:
+            type: num
+            sun2000_read@instance: STORAGE_UNIT_1_TOTAL_CHARGE
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        total_discharge:
+            type: num
+            sun2000_read@instance: STORAGE_UNIT_1_TOTAL_DISCHARGE
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        software_version:
+            type: str
+            sun2000_read@instance: STORAGE_UNIT_1_SOFTWARE_VERSION
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        product_model:
+            type: num
+            sun2000_read@instance: STORAGE_UNIT_1_PRODUCT_MODEL
+            sun2000_equipment@instance: ..:.
+            sun2000_cycle@instance: 24h
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        no:
+            type: num
+            sun2000_read@instance: STORAGE_UNIT_1_NO
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+
+    storage_unit_1_battery_pack_1:
+        sun2000_equipment@instance: STORAGE_UNIT_1_BATTERY_PACK_1
+        sun2000_slave@instance: default
+
+        serial_number:
+            type: str
+            sun2000_read@instance: STORAGE_UNIT_1_BATTERY_PACK_1_SERIAL_NUMBER
+            sun2000_equipment@instance: ..:.
+            sun2000_cycle@instance: 24h
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        firmware_version:
+            type: str
+            sun2000_read@instance: STORAGE_UNIT_1_BATTERY_PACK_1_FIRMWARE_VERSION
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        working_status:
+            type: num
+            sun2000_read@instance: STORAGE_UNIT_1_BATTERY_PACK_1_WORKING_STATUS
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        state_of_capacity:
+            type: num
+            sun2000_read@instance: STORAGE_UNIT_1_BATTERY_PACK_1_STATE_OF_CAPACITY
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        charge_discharge_power:
+            type: num
+            sun2000_read@instance: STORAGE_UNIT_1_BATTERY_PACK_1_CHARGE_DISCHARGE_POWER
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        voltage:
+            type: num
+            sun2000_read@instance: STORAGE_UNIT_1_BATTERY_PACK_1_VOLTAGE
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        current:
+            type: num
+            sun2000_read@instance: STORAGE_UNIT_1_BATTERY_PACK_1_CURRENT
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        total_charge:
+            type: num
+            sun2000_read@instance: STORAGE_UNIT_1_BATTERY_PACK_1_TOTAL_CHARGE
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        total_discharge:
+            type: num
+            sun2000_read@instance: STORAGE_UNIT_1_BATTERY_PACK_1_TOTAL_DISCHARGE
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        maximum_temperature:
+            type: num
+            sun2000_read@instance: STORAGE_UNIT_1_BATTERY_PACK_1_MAXIMUM_TEMPERATURE
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        minimum_temperature:
+            type: num
+            sun2000_read@instance: STORAGE_UNIT_1_BATTERY_PACK_1_MINIMUM_TEMPERATURE
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        no:
+            type: num
+            sun2000_read@instance: STORAGE_UNIT_1_PACK_1_NO
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+    storage_unit_1_battery_pack_2:
+        sun2000_equipment@instance: STORAGE_UNIT_1_BATTERY_PACK_2
+        sun2000_slave@instance: default
+
+        serial_number:
+            type: str
+            sun2000_read@instance: STORAGE_UNIT_1_BATTERY_PACK_2_SERIAL_NUMBER
+            sun2000_equipment@instance: ..:.
+            sun2000_cycle@instance: 24h
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        firmware_version:
+            type: str
+            sun2000_read@instance: STORAGE_UNIT_1_BATTERY_PACK_2_FIRMWARE_VERSION
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        working_status:
+            type: num
+            sun2000_read@instance: STORAGE_UNIT_1_BATTERY_PACK_2_WORKING_STATUS
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        state_of_capacity:
+            type: num
+            sun2000_read@instance: STORAGE_UNIT_1_BATTERY_PACK_2_STATE_OF_CAPACITY
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        charge_discharge_power:
+            type: num
+            sun2000_read@instance: STORAGE_UNIT_1_BATTERY_PACK_2_CHARGE_DISCHARGE_POWER
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        voltage:
+            type: num
+            sun2000_read@instance: STORAGE_UNIT_1_BATTERY_PACK_2_VOLTAGE
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        current:
+            type: num
+            sun2000_read@instance: STORAGE_UNIT_1_BATTERY_PACK_2_CURRENT
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        total_charge:
+            type: num
+            sun2000_read@instance: STORAGE_UNIT_1_BATTERY_PACK_2_TOTAL_CHARGE
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        total_discharge:
+            type: num
+            sun2000_read@instance: STORAGE_UNIT_1_BATTERY_PACK_2_TOTAL_DISCHARGE
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        maximum_temperature:
+            type: num
+            sun2000_read@instance: STORAGE_UNIT_1_BATTERY_PACK_2_MAXIMUM_TEMPERATURE
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        minimum_temperature:
+            type: num
+            sun2000_read@instance: STORAGE_UNIT_1_BATTERY_PACK_2_MINIMUM_TEMPERATURE
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        no:
+            type: num
+            sun2000_read@instance: STORAGE_UNIT_1_PACK_2_NO
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+    storage_unit_1_battery_pack_3:
+        sun2000_equipment@instance: STORAGE_UNIT_1_BATTERY_PACK_3
+        sun2000_slave@instance: default
+
+        serial_number:
+            type: str
+            sun2000_read@instance: STORAGE_UNIT_1_BATTERY_PACK_3_SERIAL_NUMBER
+            sun2000_equipment@instance: ..:.
+            sun2000_cycle@instance: 24h
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        firmware_version:
+            type: str
+            sun2000_read@instance: STORAGE_UNIT_1_BATTERY_PACK_3_FIRMWARE_VERSION
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        working_status:
+            type: num
+            sun2000_read@instance: STORAGE_UNIT_1_BATTERY_PACK_3_WORKING_STATUS
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        state_of_capacity:
+            type: num
+            sun2000_read@instance: STORAGE_UNIT_1_BATTERY_PACK_3_STATE_OF_CAPACITY
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        charge_discharge_power:
+            type: num
+            sun2000_read@instance: STORAGE_UNIT_1_BATTERY_PACK_3_CHARGE_DISCHARGE_POWER
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        voltage:
+            type: num
+            sun2000_read@instance: STORAGE_UNIT_1_BATTERY_PACK_3_VOLTAGE
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        current:
+            type: num
+            sun2000_read@instance: STORAGE_UNIT_1_BATTERY_PACK_3_CURRENT
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        total_charge:
+            type: num
+            sun2000_read@instance: STORAGE_UNIT_1_BATTERY_PACK_3_TOTAL_CHARGE
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        total_discharge:
+            type: num
+            sun2000_read@instance: STORAGE_UNIT_1_BATTERY_PACK_3_TOTAL_DISCHARGE
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        maximum_temperature:
+            type: num
+            sun2000_read@instance: STORAGE_UNIT_1_BATTERY_PACK_3_MAXIMUM_TEMPERATURE
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        minimum_temperature:
+            type: num
+            sun2000_read@instance: STORAGE_UNIT_1_BATTERY_PACK_3_MINIMUM_TEMPERATURE
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        no:
+            type: num
+            sun2000_read@instance: STORAGE_UNIT_1_PACK_3_NO
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+    storage_unit_2:
+        sun2000_equipment@instance: STORAGE_UNIT_2
+        sun2000_slave@instance: default
+
+        running_status:
+            type: num
+            sun2000_read@instance: STORAGE_UNIT_2_RUNNING_STATUS
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        charge_discharge_power:
+            type: num
+            sun2000_read@instance: STORAGE_UNIT_2_CHARGE_DISCHARGE_POWER
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        bus_voltage:
+            type: num
+            sun2000_read@instance: STORAGE_UNIT_2_BUS_VOLTAGE
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        state_of_capacity:
+            type: num
+            sun2000_read@instance: STORAGE_UNIT_2_STATE_OF_CAPACITY
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+#        working_mode_b:
+#            type: foo
+#            sun2000_read@instance: STORAGE_UNIT_2_WORKING_MODE_B
+#            sun2000_equipment@instance: ..:.
+#            sun2000_slave@instance: ..:.
+
+#        rated_charge_power:
+#            type: num
+#            sun2000_read@instance: STORAGE_UNIT_2_RATED_CHARGE_POWER
+#            sun2000_equipment@instance: ..:.
+#            sun2000_cycle@instance: 24h
+#            sun2000_slave@instance: ..:.
+
+#        rated_discharge_power:
+#            type: num
+#            sun2000_read@instance: STORAGE_UNIT_2_RATED_DISCHARGE_POWER
+#            sun2000_equipment@instance: ..:.
+#            sun2000_cycle@instance: 24h
+#            sun2000_slave@instance: ..:.
+
+#        fault_id:
+#            type: num
+#            sun2000_read@instance: STORAGE_UNIT_2_FAULT_ID
+#            sun2000_equipment@instance: ..:.
+#            sun2000_slave@instance: ..:.
+
+        current_day_charge_capacity:
+            type: num
+            sun2000_read@instance: STORAGE_UNIT_2_CURRENT_DAY_CHARGE_CAPACITY
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        current_day_discharge_capacity:
+            type: num
+            sun2000_read@instance: STORAGE_UNIT_2_CURRENT_DAY_DISCHARGE_CAPACITY
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        bus_current:
+            type: num
+            sun2000_read@instance: STORAGE_UNIT_2_BUS_CURRENT
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        battery_temperature:
+            type: num
+            sun2000_read@instance: STORAGE_UNIT_2_BATTERY_TEMPERATURE
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+#        remaining_charge_discharge_time:
+#            type: num
+#            sun2000_read@instance: STORAGE_UNIT_2_REMAINING_CHARGE_DIS_CHARGE_TIME
+#            sun2000_equipment@instance: ..:.
+#            sun2000_slave@instance: ..:.
+
+#        dcdc_version:
+#            type: str
+#            sun2000_read@instance: STORAGE_UNIT_2_DCDC_VERSION
+#            sun2000_equipment@instance: ..:.
+#            sun2000_slave@instance: ..:.
+
+#        bms_version:
+#            type: str
+#            sun2000_read@instance: STORAGE_UNIT_2_BMS_VERSION
+#            sun2000_equipment@instance: ..:.
+#            sun2000_slave@instance: ..:.
+
+        serial_number:
+            type: str
+            sun2000_read@instance: STORAGE_UNIT_2_SERIAL_NUMBER
+            sun2000_equipment@instance: ..:.
+            sun2000_cycle@instance: 24h
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        total_charge:
+            type: num
+            sun2000_read@instance: STORAGE_UNIT_2_TOTAL_CHARGE
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        total_discharge:
+            type: num
+            sun2000_read@instance: STORAGE_UNIT_2_TOTAL_DISCHARGE
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        software_version:
+            type: str
+            sun2000_read@instance: STORAGE_UNIT_2_SOFTWARE_VERSION
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        product_model:
+            type: num
+            sun2000_read@instance: STORAGE_UNIT_2_PRODUCT_MODEL
+            sun2000_equipment@instance: ..:.
+            sun2000_cycle@instance: 24h
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        no:
+            type: num
+            sun2000_read@instance: STORAGE_UNIT_2_NO
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+    storage_unit_2_battery_pack_1:
+        sun2000_equipment@instance: STORAGE_UNIT_2_BATTERY_PACK_1
+        sun2000_slave@instance: default
+
+        serial_number:
+            type: str
+            sun2000_read@instance: STORAGE_UNIT_2_BATTERY_PACK_1_SERIAL_NUMBER
+            sun2000_equipment@instance: ..:.
+            sun2000_cycle@instance: 24h
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        firmware_version:
+            type: str
+            sun2000_read@instance: STORAGE_UNIT_2_BATTERY_PACK_1_FIRMWARE_VERSION
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        working_status:
+            type: num
+            sun2000_read@instance: STORAGE_UNIT_2_BATTERY_PACK_1_WORKING_STATUS
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        state_of_capacity:
+            type: num
+            sun2000_read@instance: STORAGE_UNIT_2_BATTERY_PACK_1_STATE_OF_CAPACITY
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        charge_discharge_power:
+            type: num
+            sun2000_read@instance: STORAGE_UNIT_2_BATTERY_PACK_1_CHARGE_DISCHARGE_POWER
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        voltage:
+            type: num
+            sun2000_read@instance: STORAGE_UNIT_2_BATTERY_PACK_1_VOLTAGE
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        current:
+            type: num
+            sun2000_read@instance: STORAGE_UNIT_2_BATTERY_PACK_1_CURRENT
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        total_charge:
+            type: num
+            sun2000_read@instance: STORAGE_UNIT_2_BATTERY_PACK_1_TOTAL_CHARGE
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        total_discharge:
+            type: num
+            sun2000_read@instance: STORAGE_UNIT_2_BATTERY_PACK_1_TOTAL_DISCHARGE
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        maximum_temperature:
+            type: num
+            sun2000_read@instance: STORAGE_UNIT_2_BATTERY_PACK_1_MAXIMUM_TEMPERATURE
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        minimum_temperature:
+            type: num
+            sun2000_read@instance: STORAGE_UNIT_2_BATTERY_PACK_1_MINIMUM_TEMPERATURE
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        no:
+            type: num
+            sun2000_read@instance: STORAGE_UNIT_2_PACK_1_NO
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+    storage_unit_2_battery_pack_2:
+        sun2000_equipment@instance: STORAGE_UNIT_2_BATTERY_PACK_2
+        sun2000_slave@instance: default
+
+        serial_number:
+            type: str
+            sun2000_read@instance: STORAGE_UNIT_2_BATTERY_PACK_2_SERIAL_NUMBER
+            sun2000_equipment@instance: ..:.
+            sun2000_cycle@instance: 24h
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        firmware_version:
+            type: str
+            sun2000_read@instance: STORAGE_UNIT_2_BATTERY_PACK_2_FIRMWARE_VERSION
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        working_status:
+            type: num
+            sun2000_read@instance: STORAGE_UNIT_2_BATTERY_PACK_2_WORKING_STATUS
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        state_of_capacity:
+            type: num
+            sun2000_read@instance: STORAGE_UNIT_2_BATTERY_PACK_2_STATE_OF_CAPACITY
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        charge_discharge_power:
+            type: num
+            sun2000_read@instance: STORAGE_UNIT_2_BATTERY_PACK_2_CHARGE_DISCHARGE_POWER
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        voltage:
+            type: num
+            sun2000_read@instance: STORAGE_UNIT_2_BATTERY_PACK_2_VOLTAGE
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        current:
+            type: num
+            sun2000_read@instance: STORAGE_UNIT_2_BATTERY_PACK_2_CURRENT
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        total_charge:
+            type: num
+            sun2000_read@instance: STORAGE_UNIT_2_BATTERY_PACK_2_TOTAL_CHARGE
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        total_discharge:
+            type: num
+            sun2000_read@instance: STORAGE_UNIT_2_BATTERY_PACK_2_TOTAL_DISCHARGE
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        maximum_temperature:
+            type: num
+            sun2000_read@instance: STORAGE_UNIT_2_BATTERY_PACK_2_MAXIMUM_TEMPERATURE
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        minimum_temperature:
+            type: num
+            sun2000_read@instance: STORAGE_UNIT_2_BATTERY_PACK_2_MINIMUM_TEMPERATURE
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        no:
+            type: num
+            sun2000_read@instance: STORAGE_UNIT_2_PACK_2_NO
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+    storage_unit_2_battery_pack_3:
+        sun2000_equipment@instance: STORAGE_UNIT_2_BATTERY_PACK_3
+        sun2000_slave@instance: default
+
+        serial_number:
+            type: str
+            sun2000_read@instance: STORAGE_UNIT_2_BATTERY_PACK_3_SERIAL_NUMBER
+            sun2000_equipment@instance: ..:.
+            sun2000_cycle@instance: 24h
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        firmware_version:
+            type: str
+            sun2000_read@instance: STORAGE_UNIT_2_BATTERY_PACK_3_FIRMWARE_VERSION
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        working_status:
+            type: num
+            sun2000_read@instance: STORAGE_UNIT_2_BATTERY_PACK_3_WORKING_STATUS
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        state_of_capacity:
+            type: num
+            sun2000_read@instance: STORAGE_UNIT_2_BATTERY_PACK_3_STATE_OF_CAPACITY
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        charge_discharge_power:
+            type: num
+            sun2000_read@instance: STORAGE_UNIT_2_BATTERY_PACK_3_CHARGE_DISCHARGE_POWER
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        voltage:
+            type: num
+            sun2000_read@instance: STORAGE_UNIT_2_BATTERY_PACK_3_VOLTAGE
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        current:
+            type: num
+            sun2000_read@instance: STORAGE_UNIT_2_BATTERY_PACK_3_CURRENT
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        total_charge:
+            type: num
+            sun2000_read@instance: STORAGE_UNIT_2_BATTERY_PACK_3_TOTAL_CHARGE
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        total_discharge:
+            type: num
+            sun2000_read@instance: STORAGE_UNIT_2_BATTERY_PACK_3_TOTAL_DISCHARGE
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        maximum_temperature:
+            type: num
+            sun2000_read@instance: STORAGE_UNIT_2_BATTERY_PACK_3_MAXIMUM_TEMPERATURE
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        minimum_temperature:
+            type: num
+            sun2000_read@instance: STORAGE_UNIT_2_BATTERY_PACK_3_MINIMUM_TEMPERATURE
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+        no:
+            type: num
+            sun2000_read@instance: STORAGE_UNIT_2_PACK_3_NO
+            sun2000_equipment@instance: ..:.
+            sun2000_slave@instance: ..:.
+            database@instance: init
+
+#item_attribute_prefixes:
+    # Definition of item attributes that only have a common prefix (enter 'item_attribute_prefixes: NONE' or ommit this section, if section should be empty)
+    # NOTE: This section should only be used, if really nessesary (e.g. for the stateengine plugin)
+
+plugin_functions: NONE
+    # Definition of plugin functions defined by this plugin (enter 'plugin_functions: NONE', if section should be empty)
+
+logic_parameters: NONE
+    # Definition of logic parameters defined by this plugin (enter 'logic_parameters: NONE', if section should be empty)
