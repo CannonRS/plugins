@@ -70,7 +70,7 @@ class ReadItem:
 
 
 class Huawei_Sun2000(SmartPlugin):
-    PLUGIN_VERSION = '0.2.1'    # (must match the version specified in plugin.yaml), use '1.0.0' for your initial plugin Release
+    PLUGIN_VERSION = '0.2.2'    # (must match the version specified in plugin.yaml), use '1.0.0' for your initial plugin Release
 
     def __init__(self, sh):
         # Call init code of parent class (SmartPlugin)
@@ -134,6 +134,10 @@ class Huawei_Sun2000(SmartPlugin):
                             self._read_item_dictionary[item].initialized = True
                         except Exception as e:
                             self.logger.error(f"inverter_read: Error reading register '{self._read_item_dictionary[item].register}' from {self._host}:{self._port}, slave_id {self._read_item_dictionary[item].slave}: {e}")
+                            # if 'IllegalAddress' occurs the register will be dropped out
+                            if len(e) == 42 and e[27:-1] == 'IllegalAddress':
+                                self.logger.debug(f"inverter_read: register '{self._read_item_dictionary[item].register}' will not be checked anymore")
+                                self._read_item_dictionary.pop(item)
                     else:
                         self.logger.debug(f"Equipment check skipped item '{item.property.path}'")
             if not hold_connection:
@@ -262,18 +266,17 @@ class Huawei_Sun2000(SmartPlugin):
             register = self.get_iattr_value(item.conf, 'sun2000_read')
             if hasattr(rn, register):
                 # check for slave id
+                slave = self._slave
                 if self.has_iattr(item.conf, 'sun2000_slave'):
                     slave = self.string_to_int_special(self.get_iattr_value(item.conf, 'sun2000_slave'), ITEM_SLAVE_DEFAULT, self._slave)
                     self.logger.debug(f"Item {item.property.path}, slave {slave}")
-                else:
-                    slave = self._slave
                 # check for sun2000_cycle
+                cycle = self._cycle
                 if self.has_iattr(item.conf, 'sun2000_cycle'):
                     cycle = self.string_to_seconds_special(self.get_iattr_value(item.conf, 'sun2000_cycle'))
                     self.logger.debug(f"Item {item.property.path}, cycle {cycle}")
-                else:
-                    cycle = self._cycle
                 # check equipment
+                equipment = None
                 if self.has_iattr(item.conf, 'sun2000_equipment'):
                     equipment_key = self.get_iattr_value(item.conf, 'sun2000_equipment')
                     if equipment_key in EquipmentDictionary:
@@ -281,8 +284,6 @@ class Huawei_Sun2000(SmartPlugin):
                         self.logger.debug(f"Item {item.property.path}, equipment {equipment_key}")
                     else:
                         self.logger.warning(f"Invalid key for sun2000_equipment '{equipment_key}' configured")
-                else:
-                    equipment = None
                 self._read_item_dictionary.update({item: ReadItem(register, cycle, slave, equipment)})
             else:
                 self.logger.warning(f"Invalid key for 'sun2000_read' '{register}' configured")
