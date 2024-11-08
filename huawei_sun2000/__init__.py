@@ -135,7 +135,8 @@ class Huawei_Sun2000(SmartPlugin):
                         except Exception as e:
                             self.logger.error(f"inverter_read: Error reading register '{self._read_item_dictionary[item].register}' from {self._host}:{self._port}, slave_id {self._read_item_dictionary[item].slave}: {e}")
                             # if 'IllegalAddress' occurs the register will be dropped out
-                            if len(e) == 42 and e[27:-1] == 'IllegalAddress':
+                            ex = str(e)
+                            if len(ex) == 42 and ex[27:-1] == 'IllegalAddress':
                                 self.logger.debug(f"inverter_read: register '{self._read_item_dictionary[item].register}' will not be checked anymore")
                                 self._read_item_dictionary.pop(item)
                     else:
