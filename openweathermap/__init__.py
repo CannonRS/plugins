@@ -24,15 +24,18 @@
 
 import logging
 import requests
-import datetime
 import json
 import math
 import functools
-from .webif import WebInterface
+
 from datetime import datetime, timedelta, timezone
-from lib.model.smartplugin import *
-from bin.smarthome import VERSION
 from pprint import pformat
+
+from lib.model.smartplugin import SmartPlugin
+from lib.shtime import Shtime
+from bin.smarthome import VERSION
+
+from .webif import WebInterface
 
 
 class OpenWeatherMapNoValueHardException(Exception):
@@ -46,7 +49,7 @@ class OpenWeatherMapNoValueSoftException(Exception):
 
 
 class OpenWeatherMap(SmartPlugin):
-    PLUGIN_VERSION = "1.8.7"
+    PLUGIN_VERSION = "1.8.8"
 
     _base_url = 'https://api.openweathermap.org/'
     _base_img_url = 'https://tile.openweathermap.org/map/%s/%s/%s/%s.png?appid=%s'
@@ -91,6 +94,8 @@ class OpenWeatherMap(SmartPlugin):
 
         # Call init code of parent class (SmartPlugin)
         super().__init__()
+
+        self.shtime = Shtime.get_instance()
 
         if '.'.join(VERSION.split('.', 2)[:2]) <= '1.5':
             self.logger = logging.getLogger(__name__)
@@ -396,6 +401,21 @@ class OpenWeatherMap(SmartPlugin):
                 else:
                     raise Exception(f"Cannot make sense of {s}")
                 s = updated_s
+            elif (s.startswith("current/") or s.startswith("daily/") or s.startswith("day/") or s.startswith("hour/")) and (s.endswith('/wind_gust/beaufort') or s.endswith('/wind_gust/description')):
+                wrk_typ = "onecall [bft-calculation]"
+                mps_string = s.replace('/wind_gust/beaufort', '/wind_gust')
+                mps_string = mps_string.replace(
+                    '/wind_gust/description', '/wind_gust')
+                wind_mps, updated_s = self.__get_val_from_dict(
+                    mps_string, wrk, correlation_hint, owm_matchstring)
+                bft_val = self.get_beaufort_number(wind_mps)
+                if s.endswith('/beaufort'):
+                    ret_val = bft_val
+                elif s.endswith('/description'):
+                    ret_val = self.get_beaufort_description(bft_val)
+                else:
+                    raise Exception(f"Cannot make sense of {s}")
+                s = updated_s
             else:
                 ret_val, s = self.__get_val_from_dict(s, wrk, correlation_hint, owm_matchstring)
         except Exception as e:
@@ -477,7 +497,7 @@ class OpenWeatherMap(SmartPlugin):
         self.logger.debug("%s _calculate_eto: for %s" %
                           ((correlation_hint, s)))
         sunrise_value = self.get_value_or_raise(s.replace('/eto', "/sunrise"), correlation_hint)
-        climate_sunrise = datetime.utcfromtimestamp(int(sunrise_value))
+        climate_sunrise = self.shtime.utcfromtimestamp(int(sunrise_value))
         climate_humidity = self.get_value_or_raise(s.replace('/eto', "/humidity"), correlation_hint)
         climate_pressure = self.get_value_or_raise(s.replace('/eto', "/pressure"), correlation_hint)
         climate_min = self.get_value_or_raise(s.replace('/eto', "/temp" if s.startswith('day/-') else "/temp/min"), correlation_hint)
@@ -927,11 +947,11 @@ class OpenWeatherMap(SmartPlugin):
         elif url_type == self._data_source_key_airpollution_forecast:
             url = self._base_url + 'data/' + '2.5' + '/air_pollution/history'
             parameters = "?lat=%s&lon=%s&start=%i&end=%i&appid=%s" % (
-                self._lat, self._lon, datetime.utcnow().timestamp(), self.__get_timestamp_for_delta_days(5), self._key)
+                self._lat, self._lon, self.shtime.utcnow().timestamp(), self.__get_timestamp_for_delta_days(5), self._key)
             url = '%s%s' % (url, parameters)
         elif url_type.startswith('airpollution-'):
             url = self._base_url + 'data/' + '2.5' + '/air_pollution/history'
-            parameters = "?lat=%s&lon=%s&start=%i&end=%i&appid=%s" % (self._lat, self._lon,  self.__get_timestamp_for_delta_days(
+            parameters = "?lat=%s&lon=%s&start=%i&end=%i&appid=%s" % (self._lat, self._lon, self.__get_timestamp_for_delta_days(
                 delta_t), self.__get_timestamp_for_delta_days(delta_t + 1), self._key)
             url = '%s%s' % (url, parameters)
         elif url_type == self._data_source_key_onecall:
